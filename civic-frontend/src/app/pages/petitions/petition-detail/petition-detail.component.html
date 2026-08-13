@@ -1,9 +1,6 @@
 <div class="page-container">
 
-  <!-- =====================================================
-       BACK BUTTON
-  ====================================================== -->
-
+  <!-- ================= BACK ================= -->
   <div class="back-bar">
     <button mat-button routerLink="/petitions">
       <mat-icon>arrow_back</mat-icon>
@@ -14,203 +11,78 @@
 
   @if (petition) {
 
-    <!-- =====================================================
-         HERO / MAIN LAYOUT
-    ====================================================== -->
-
     <div class="detail-layout">
 
-      <!-- =================================================
-           LEFT MAIN CONTENT
-      ================================================== -->
-
-      <div class="main-col">
+      <!-- =====================================================
+           LEFT : PETITION DETAILS
+      ====================================================== -->
+      <div class="main-column">
 
         <mat-card class="detail-card">
 
           <mat-card-content>
 
-            <!-- ================= HEADER ================= -->
-
+            <!-- HEADER -->
             <div class="header-top">
 
               <div class="header-left">
 
                 <div class="badge-row">
 
-                  <!-- Status -->
                   <span
                     class="badge"
-                    [ngClass]="{
-                      'active': petition.status === 'ACTIVE',
-                      'under_review': petition.status === 'UNDER_REVIEW',
-                      'approved': petition.status === 'APPROVED',
-                      'rejected': petition.status === 'REJECTED',
-                      'closed': petition.status === 'CLOSED'
-                    }"
+                    [ngClass]="petition.status?.toLowerCase()"
                   >
+                    <mat-icon>
+                      {{
+                        petition.status === 'APPROVED'
+                          ? 'check_circle'
+                          : petition.status === 'REJECTED'
+                          ? 'cancel'
+                          : petition.status === 'CLOSED'
+                          ? 'lock'
+                          : petition.status === 'UNDER_REVIEW'
+                          ? 'rate_review'
+                          : 'campaign'
+                      }}
+                    </mat-icon>
 
-                    <span class="status-dot"></span>
-
-                    {{
-                      petition.status === 'UNDER_REVIEW'
-                        ? 'Under Review'
-                        : (petition.status | titlecase)
-                    }}
+                    {{ petition.status?.replace('_', ' ') }}
 
                   </span>
 
-
-                  <!-- Category -->
                   <span class="cat-badge">
-                    <mat-icon>category</mat-icon>
                     {{ petition.category }}
                   </span>
 
-
-                  <!-- Department -->
-                  @if (petition.department) {
-
-                    <span class="department-badge">
-                      <mat-icon>account_balance</mat-icon>
-                      {{ petition.department }}
-                    </span>
-
-                  }
-
                 </div>
-
 
                 <h1 class="detail-title">
                   {{ petition.title }}
                 </h1>
 
-
-                <div class="title-meta">
-
-                  <span>
-                    <mat-icon>calendar_today</mat-icon>
-                    Created {{ petition.createdAt | date:'mediumDate' }}
-                  </span>
-
-                  <span>
-                    <mat-icon>location_on</mat-icon>
-                    {{ petition.location }}
-                  </span>
-
-                </div>
-
               </div>
 
             </div>
 
 
-            <!-- ================= STATUS SUMMARY ================= -->
-
-            <div
-              class="status-banner"
-              [ngClass]="{
-                'status-active': petition.status === 'ACTIVE',
-                'status-pending': petition.status === 'UNDER_REVIEW',
-                'status-approved': petition.status === 'APPROVED',
-                'status-rejected': petition.status === 'REJECTED',
-                'status-closed': petition.status === 'CLOSED'
-              }"
-            >
-
-              <div class="status-banner-icon">
-
-                <mat-icon>
-                  {{
-                    petition.status === 'APPROVED'
-                      ? 'check_circle'
-                      : petition.status === 'REJECTED'
-                      ? 'cancel'
-                      : petition.status === 'CLOSED'
-                      ? 'lock'
-                      : petition.status === 'UNDER_REVIEW'
-                      ? 'pending_actions'
-                      : 'campaign'
-                  }}
-                </mat-icon>
-
-              </div>
-
-
-              <div class="status-banner-content">
-
-                <strong>
-                  {{
-                    petition.status === 'APPROVED'
-                      ? 'Petition Approved'
-                      : petition.status === 'REJECTED'
-                      ? 'Petition Rejected'
-                      : petition.status === 'CLOSED'
-                      ? 'Petition Closed'
-                      : petition.status === 'UNDER_REVIEW'
-                      ? 'Petition Under Review'
-                      : 'Petition is Active'
-                  }}
-                </strong>
-
-                <span>
-
-                  {{
-                    petition.status === 'APPROVED'
-                      ? 'The responsible department has accepted this petition and work is in progress.'
-                      : petition.status === 'REJECTED'
-                      ? 'The responsible department has rejected this petition and provided an explanation.'
-                      : petition.status === 'CLOSED'
-                      ? 'This petition has completed its civic workflow.'
-                      : petition.status === 'UNDER_REVIEW'
-                      ? 'Officials are reviewing the petition and determining the next action.'
-                      : 'Citizens can continue supporting this petition by signing it.'
-                  }}
-
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <!-- ================= META GRID ================= -->
-
+            <!-- META -->
             <div class="meta-grid">
 
               <div class="meta-box">
-
-                <div class="meta-icon blue">
-                  <mat-icon>person</mat-icon>
-                </div>
-
-                <div>
-                  <small>Created By</small>
-                  <strong>{{ petition.creatorName }}</strong>
-                </div>
-
-              </div>
-
-
-              <div class="meta-box">
-
-                <div class="meta-icon orange">
-                  <mat-icon>location_on</mat-icon>
-                </div>
+                <mat-icon>location_on</mat-icon>
 
                 <div>
                   <small>Location</small>
-                  <strong>{{ petition.location }}</strong>
+                  <strong>
+                    {{ petition.location }}
+                  </strong>
                 </div>
-
               </div>
 
 
               <div class="meta-box">
-
-                <div class="meta-icon green">
-                  <mat-icon>account_balance</mat-icon>
-                </div>
+                <mat-icon>account_balance</mat-icon>
 
                 <div>
                   <small>Department</small>
@@ -218,32 +90,30 @@
                     {{ petition.department || 'Not Assigned' }}
                   </strong>
                 </div>
+              </div>
 
+
+              <div class="meta-box">
+                <mat-icon>person</mat-icon>
+
+                <div>
+                  <small>Created By</small>
+                  <strong>
+                    {{ petition.creatorName }}
+                  </strong>
+                </div>
               </div>
 
             </div>
 
 
-            <mat-divider></mat-divider>
-
-
-            <!-- ================= DESCRIPTION ================= -->
-
+            <!-- DESCRIPTION -->
             <div class="content-card">
 
-              <div class="section-heading">
-
-                <div class="section-icon">
-                  <mat-icon>description</mat-icon>
-                </div>
-
-                <div>
-                  <h2>About This Petition</h2>
-                  <span>Citizen submitted civic issue</span>
-                </div>
-
-              </div>
-
+              <h2>
+                <mat-icon>description</mat-icon>
+                About This Petition
+              </h2>
 
               <p>
                 {{ petition.description }}
@@ -252,115 +122,205 @@
             </div>
 
 
-            <!-- ================= PETITION JOURNEY ================= -->
+            <!-- =================================================
+                 PETITION PROGRESS
+            ================================================== -->
+            <div class="progress-section">
 
-            <div class="timeline-section">
-
-              <div class="section-heading timeline-heading">
-
-                <div class="section-icon timeline-icon">
-                  <mat-icon>timeline</mat-icon>
-                </div>
+              <div class="section-heading">
 
                 <div>
-                  <h2>Petition Journey</h2>
-                  <span>
-                    Track decisions, responses and progress updates
+                  <span class="eyebrow">
+                    COMMUNITY IMPACT
                   </span>
+
+                  <h2>
+                    Petition Progress
+                  </h2>
+                </div>
+
+                <div class="progress-number">
+                  {{ progressPercent || 0 }}%
                 </div>
 
               </div>
 
 
-              <div class="timeline">
+              <div class="progress-wrapper">
 
-                @for (a of timeline; track a.id) {
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="progressPercent || 0">
+                </mat-progress-bar>
 
-                  <div
-                    class="timeline-item"
-                    [ngClass]="{
-                      'timeline-approved': a.action === 'APPROVED',
-                      'timeline-rejected': a.action === 'REJECTED',
-                      'timeline-closed': a.action === 'CLOSED',
-                      'timeline-pending':
-                        a.action === 'UNDER_REVIEW' ||
-                        a.action === 'PROGRESS_UPDATED',
-                      'timeline-completed':
-                        a.action === 'COMPLETED_FOR_REVIEW',
-                      'timeline-default':
-                        a.action !== 'APPROVED' &&
-                        a.action !== 'REJECTED' &&
-                        a.action !== 'CLOSED' &&
-                        a.action !== 'UNDER_REVIEW' &&
-                        a.action !== 'PROGRESS_UPDATED' &&
-                        a.action !== 'COMPLETED_FOR_REVIEW'
-                    }"
-                  >
+              </div>
 
-                    <div class="timeline-marker">
 
-                      <mat-icon>
+              <div class="progress-stats">
 
-                        {{
-                          a.action === 'APPROVED'
-                            ? 'check_circle'
-                            : a.action === 'REJECTED'
-                            ? 'cancel'
-                            : a.action === 'CLOSED'
-                            ? 'lock'
-                            : a.action === 'COMPLETED_FOR_REVIEW'
-                            ? 'task_alt'
-                            : a.action === 'PROGRESS_UPDATED'
-                            ? 'trending_up'
-                            : a.action === 'UNDER_REVIEW'
-                            ? 'pending_actions'
-                            : 'radio_button_checked'
-                        }}
+                <div>
+                  <strong>
+                    {{ petition.currentSignatures | number }}
+                  </strong>
 
-                      </mat-icon>
+                  <span>
+                    Current Signatures
+                  </span>
+                </div>
 
+
+                <div>
+                  <strong>
+                    {{ petition.goal | number }}
+                  </strong>
+
+                  <span>
+                    Signature Goal
+                  </span>
+                </div>
+
+
+                <div>
+                  <strong>
+                    {{
+                      petition.goal
+                        ? ((petition.currentSignatures / petition.goal * 100) > 100
+                            ? 100
+                            : (petition.currentSignatures / petition.goal * 100))
+                        : 0
+                    | number:'1.0-0'
+                    }}%
+                  </strong>
+
+                  <span>
+                    Goal Reached
+                  </span>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 OFFICIAL DECISION DETAILS
+            ================================================== -->
+
+            @if (
+              petition.status === 'APPROVED' ||
+              petition.status === 'REJECTED'
+            ) {
+
+              <div
+                class="decision-card"
+                [class.approved-card]="petition.status === 'APPROVED'"
+                [class.rejected-card]="petition.status === 'REJECTED'"
+              >
+
+                <div class="decision-header">
+
+                  <div class="decision-icon">
+
+                    <mat-icon>
+                      {{
+                        petition.status === 'APPROVED'
+                          ? 'verified'
+                          : 'cancel'
+                      }}
+                    </mat-icon>
+
+                  </div>
+
+                  <div>
+
+                    <span>
+                      OFFICIAL DECISION
+                    </span>
+
+                    <h2>
+                      {{
+                        petition.status === 'APPROVED'
+                          ? 'Petition Approved'
+                          : 'Petition Rejected'
+                      }}
+                    </h2>
+
+                  </div>
+
+                </div>
+
+
+                @if (petition.status === 'REJECTED') {
+
+                  <div class="decision-content">
+
+                    <div>
+                      <label>Reason for Rejection</label>
+
+                      <p>
+                        {{ petition.rejectionReason || 'Not provided.' }}
+                      </p>
                     </div>
 
 
-                    <div class="timeline-content">
+                    <div>
+                      <label>Proposed Solution</label>
 
-                      <div class="timeline-top">
+                      <p>
+                        {{ petition.proposedSolution || 'Not provided.' }}
+                      </p>
+                    </div>
 
-                        <span class="timeline-status">
+                  </div>
 
-                          {{
-                            a.action === 'COMPLETED_FOR_REVIEW'
-                              ? 'Work Completed'
-                              : a.action === 'PROGRESS_UPDATED'
-                              ? 'Progress Updated'
-                              : a.action === 'UNDER_REVIEW'
-                              ? 'Under Review'
-                              : a.action.replaceAll('_', ' ')
-                          }}
-
-                        </span>
+                }
 
 
-                        <span class="timeline-date">
-                          {{ a.createdAt | date:'medium' }}
-                        </span>
+                @if (petition.status === 'APPROVED') {
 
+                  <div class="decision-content">
+
+                    <div>
+                      <label>Action Plan</label>
+
+                      <p>
+                        {{ petition.actionPlan || 'Not provided.' }}
+                      </p>
+                    </div>
+
+
+                    <div class="official-grid">
+
+                      <div>
+                        <label>Responsible Person</label>
+                        <strong>
+                          {{ petition.responsiblePerson || 'Not assigned' }}
+                        </strong>
                       </div>
 
+                      <div>
+                        <label>Designation</label>
+                        <strong>
+                          {{ petition.responsibleDesignation || 'Not specified' }}
+                        </strong>
+                      </div>
 
-                      <p class="timeline-description">
-                        {{ a.description }}
-                      </p>
+                      <div>
+                        <label>Department</label>
+                        <strong>
+                          {{ petition.responsibleDepartment || 'Not specified' }}
+                        </strong>
+                      </div>
 
-
-                      <div class="timeline-user">
-
-                        <mat-icon>person</mat-icon>
-
-                        <span>
-                          {{ a.officialName || 'Civic Activity' }}
-                        </span>
-
+                      <div>
+                        <label>Expected Completion</label>
+                        <strong>
+                          {{
+                            petition.expectedCompletionAt
+                              ? (petition.expectedCompletionAt | date:'mediumDate')
+                              : 'Not specified'
+                          }}
+                        </strong>
                       </div>
 
                     </div>
@@ -369,20 +329,530 @@
 
                 }
 
+              </div>
 
-                @if (!timeline.length) {
+            }
 
-                  <div class="timeline-empty">
 
-                    <div class="timeline-empty-icon">
-                      <mat-icon>timeline</mat-icon>
+            <!-- =================================================
+                 WORK PROGRESS
+            ================================================== -->
+
+            @if (
+              isOfficial &&
+              (
+                petition.status === 'APPROVED' ||
+                petition.status === 'UNDER_REVIEW'
+              )
+            ) {
+
+              <div class="official-work-card">
+
+                <div class="work-header">
+
+                  <div class="work-icon">
+                    <mat-icon>engineering</mat-icon>
+                  </div>
+
+                  <div>
+                    <span>OFFICIAL WORKSPACE</span>
+                    <h2>Work Progress</h2>
+                  </div>
+
+                </div>
+
+
+                <div class="work-progress-display">
+
+                  <div class="work-progress-number">
+                    {{ progressPercent || 0 }}%
+                  </div>
+
+                  <mat-progress-bar
+                    mode="determinate"
+                    [value]="progressPercent || 0">
+                  </mat-progress-bar>
+
+                </div>
+
+
+                <div class="work-fields">
+
+                  <mat-form-field appearance="outline">
+
+                    <mat-label>
+                      Progress Percentage
+                    </mat-label>
+
+                    <input
+                      matInput
+                      type="number"
+                      min="0"
+                      max="100"
+                      [(ngModel)]="progressPercent"
+                    />
+
+                    <span matSuffix>%</span>
+
+                  </mat-form-field>
+
+
+                  <mat-form-field appearance="outline">
+
+                    <mat-label>
+                      Completed Work
+                    </mat-label>
+
+                    <textarea
+                      matInput
+                      rows="3"
+                      [(ngModel)]="completedWork"
+                      placeholder="Describe completed work">
+                    </textarea>
+
+                  </mat-form-field>
+
+
+                  <mat-form-field appearance="outline">
+
+                    <mat-label>
+                      Pending Work
+                    </mat-label>
+
+                    <textarea
+                      matInput
+                      rows="3"
+                      [(ngModel)]="pendingWork"
+                      placeholder="Describe remaining work">
+                    </textarea>
+
+                  </mat-form-field>
+
+
+                  <mat-form-field appearance="outline">
+
+                    <mat-label>
+                      Pending Reason
+                    </mat-label>
+
+                    <textarea
+                      matInput
+                      rows="2"
+                      [(ngModel)]="pendingReason"
+                      placeholder="Explain why work is pending">
+                    </textarea>
+
+                  </mat-form-field>
+
+                </div>
+
+
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="save-progress-btn"
+                  (click)="progress()"
+                >
+                  <mat-icon>save</mat-icon>
+                  Save Progress
+                </button>
+
+
+                @if ((progressPercent || 0) >= 100) {
+
+                  <button
+                    mat-raised-button
+                    class="complete-btn"
+                    (click)="complete()"
+                  >
+                    <mat-icon>task_alt</mat-icon>
+                    Mark Work Completed
+                  </button>
+
+                }
+
+              </div>
+
+            }
+
+
+            <!-- =================================================
+                 TIMELINE
+            ================================================== -->
+
+            <div class="timeline-section">
+
+              <div class="section-heading timeline-heading">
+
+                <div>
+                  <span class="eyebrow">
+                    ACTIVITY HISTORY
+                  </span>
+
+                  <h2>
+                    Petition Timeline
+                  </h2>
+                </div>
+
+                <mat-icon>
+                  history
+                </mat-icon>
+
+              </div>
+
+
+              @if (timeline.length > 0) {
+
+                <div class="timeline">
+
+                  @for (item of timeline; track $index) {
+
+                    <div
+                      class="timeline-item"
+                      [ngClass]="{
+                        'timeline-approved':
+                          item.action?.includes('APPROVED') ||
+                          item.action?.includes('COMPLETED'),
+
+                        'timeline-rejected':
+                          item.action?.includes('REJECTED'),
+
+                        'timeline-closed':
+                          item.action?.includes('CLOSED'),
+
+                        'timeline-pending':
+                          item.action?.includes('REVIEW') ||
+                          item.action?.includes('PENDING'),
+
+                        'timeline-active':
+                          !item.action?.includes('APPROVED') &&
+                          !item.action?.includes('REJECTED') &&
+                          !item.action?.includes('CLOSED') &&
+                          !item.action?.includes('REVIEW') &&
+                          !item.action?.includes('PENDING')
+                      }"
+                    >
+
+                      <div class="timeline-marker">
+
+                        <mat-icon>
+                          {{
+                            item.action?.includes('APPROVED')
+                              ? 'check_circle'
+                              : item.action?.includes('REJECTED')
+                              ? 'cancel'
+                              : item.action?.includes('CLOSED')
+                              ? 'lock'
+                              : item.action?.includes('REVIEW')
+                              ? 'rate_review'
+                              : item.action?.includes('PROGRESS')
+                              ? 'trending_up'
+                              : 'campaign'
+                          }}
+                        </mat-icon>
+
+                      </div>
+
+
+                      <div class="timeline-content">
+
+                        <div class="timeline-top">
+
+                          <span class="timeline-action">
+                            {{
+                              item.action
+                                ?.replaceAll('_', ' ')
+                            }}
+                          </span>
+
+                          @if (item.createdAt) {
+                            <span class="timeline-date">
+                              {{ item.createdAt | date:'medium' }}
+                            </span>
+                          }
+
+                        </div>
+
+
+                        <p>
+                          {{
+                            item.description ||
+                            'Petition activity updated.'
+                          }}
+                        </p>
+
+
+                        @if (item.official?.name) {
+
+                          <div class="timeline-user">
+
+                            <mat-icon>
+                              person
+                            </mat-icon>
+
+                            {{ item.official.name }}
+
+                          </div>
+
+                        }
+
+                      </div>
+
                     </div>
 
-                    <h3>No activity yet</h3>
+                  }
+
+                </div>
+
+              }
+
+              @else {
+
+                <div class="timeline-empty">
+
+                  <mat-icon>
+                    history
+                  </mat-icon>
+
+                  <h3>No activity yet</h3>
+
+                  <p>
+                    Petition activity will appear here.
+                  </p>
+
+                </div>
+
+              }
+
+            </div>
+
+
+            <!-- =================================================
+                 OFFICIAL RESPONSE
+            ================================================== -->
+
+            @if (responses.length > 0) {
+
+              <div class="responses-section">
+
+                <div class="section-heading">
+
+                  <div>
+                    <span class="eyebrow">
+                      OFFICIAL COMMUNICATION
+                    </span>
+
+                    <h2>
+                      Responses
+                    </h2>
+                  </div>
+
+                </div>
+
+
+                @for (response of responses; track $index) {
+
+                  <div class="response-card">
+
+                    <div class="response-avatar">
+                      <mat-icon>account_balance</mat-icon>
+                    </div>
+
+                    <div class="response-body">
+
+                      <div class="response-header">
+
+                        <strong>
+                          {{
+                            response.officialName ||
+                            response.official?.name ||
+                            'Civic Official'
+                          }}
+                        </strong>
+
+                        @if (response.createdAt) {
+                          <span>
+                            {{ response.createdAt | date:'mediumDate' }}
+                          </span>
+                        }
+
+                      </div>
+
+                      <p>
+                        {{
+                          response.description ||
+                          response.comment ||
+                          response.message
+                        }}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                }
+
+              </div>
+
+            }
+
+
+            <!-- =================================================
+                 CITIZEN REVIEW
+            ================================================== -->
+
+            @if (
+              !isOfficial &&
+              petition.status === 'UNDER_REVIEW' &&
+              petition.completedAt
+            ) {
+
+              <div class="review-card">
+
+                <div class="review-header">
+
+                  <div class="review-icon">
+                    <mat-icon>rate_review</mat-icon>
+                  </div>
+
+                  <div>
+                    <span>CITIZEN REVIEW</span>
+                    <h2>How was the completed work?</h2>
+                  </div>
+
+                </div>
+
+
+                <div class="rating-selector">
+
+                  <button
+                    type="button"
+                    *ngFor="let rating of [1,2,3,4,5]"
+                    [class.selected]="reviewRating >= rating"
+                    (click)="reviewRating = rating"
+                  >
+                    <mat-icon>
+                      {{ reviewRating >= rating ? 'star' : 'star_border' }}
+                    </mat-icon>
+                  </button>
+
+                </div>
+
+
+                <mat-form-field appearance="outline">
+
+                  <mat-label>
+                    Your Review
+                  </mat-label>
+
+                  <textarea
+                    matInput
+                    rows="4"
+                    [(ngModel)]="reviewDescription"
+                    placeholder="Share your experience with the completed work">
+                  </textarea>
+
+                </mat-form-field>
+
+
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="review-btn"
+                  (click)="submitReview()"
+                >
+                  <mat-icon>send</mat-icon>
+                  Submit Review
+                </button>
+
+              </div>
+
+            }
+
+
+            <!-- =================================================
+                 REVIEWS
+            ================================================== -->
+
+            @if (reviews.length > 0) {
+
+              <div class="reviews-section">
+
+                <div class="section-heading">
+
+                  <div>
+                    <span class="eyebrow">
+                      COMMUNITY FEEDBACK
+                    </span>
+
+                    <h2>
+                      Citizen Reviews
+                    </h2>
+                  </div>
+
+                  <div class="positive-score">
+                    {{ positivePercentage }}%
+                    <small>Positive</small>
+                  </div>
+
+                </div>
+
+
+                @for (review of reviews; track $index) {
+
+                  <div class="citizen-review">
+
+                    <div class="review-user">
+
+                      <div class="review-avatar">
+                        <mat-icon>person</mat-icon>
+                      </div>
+
+                      <div>
+
+                        <strong>
+                          {{
+                            review.userName ||
+                            review.citizenName ||
+                            'Citizen'
+                          }}
+                        </strong>
+
+                        <span>
+                          {{
+                            review.createdAt
+                              ? (review.createdAt | date:'mediumDate')
+                              : ''
+                          }}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="review-stars">
+
+                      @for (
+                        star of [1,2,3,4,5];
+                        track star
+                      ) {
+
+                        <mat-icon>
+                          {{
+                            review.rating >= star
+                              ? 'star'
+                              : 'star_border'
+                          }}
+                        </mat-icon>
+
+                      }
+
+                    </div>
+
 
                     <p>
-                      Petition activity and official actions
-                      will appear here.
+                      {{ review.description }}
                     </p>
 
                   </div>
@@ -391,83 +861,7 @@
 
               </div>
 
-            </div>
-
-
-            <!-- ================= OFFICIAL RESPONSES ================= -->
-
-            <div class="response-section">
-
-              <div class="section-heading">
-
-                <div class="section-icon response-icon">
-                  <mat-icon>forum</mat-icon>
-                </div>
-
-                <div>
-                  <h2>Official Responses</h2>
-                  <span>Communication from responsible officials</span>
-                </div>
-
-              </div>
-
-
-              <div class="responses-list">
-
-                @for (r of responses; track r.id) {
-
-                  <div class="response-card">
-
-                    <div class="response-avatar">
-                      <mat-icon>verified_user</mat-icon>
-                    </div>
-
-                    <div class="response-body">
-
-                      <div class="response-top">
-
-                        <strong>
-                          {{ r.officialName || 'Official' }}
-                        </strong>
-
-                        <span class="response-status">
-                          {{ r.status || 'Response' }}
-                        </span>
-
-                      </div>
-
-                      <p>
-                        {{ r.comment }}
-                      </p>
-
-                      <small>
-                        {{ r.createdAt | date:'medium' }}
-                      </small>
-
-                    </div>
-
-                  </div>
-
-                }
-
-
-                @if (!responses.length) {
-
-                  <div class="empty-inline">
-
-                    <mat-icon>forum</mat-icon>
-
-                    <span>
-                      No official response has been added yet.
-                    </span>
-
-                  </div>
-
-                }
-
-              </div>
-
-            </div>
+            }
 
           </mat-card-content>
 
@@ -476,127 +870,303 @@
       </div>
 
 
-      <!-- =================================================
-           RIGHT SIDEBAR
-      ================================================== -->
+      <!-- =====================================================
+           RIGHT : CIVIC SUPPORT
+      ====================================================== -->
 
-      <div class="side-col">
+      <div class="sidebar">
 
         <mat-card class="sign-card">
 
           <mat-card-content>
 
-            <div class="progress-header">
+            <!-- SUPPORT HEADER -->
+            <div class="support-header">
 
-              <span class="mini-label">
+              <div class="support-label">
+                <span class="support-pulse"></span>
                 CIVIC SUPPORT
-              </span>
+              </div>
 
               <h2>
-                Petition Progress
+                Make Your Voice Count
               </h2>
 
+              <p>
+                Community support helps this petition
+                reach its goal.
+              </p>
+
             </div>
 
 
-            <!-- Signature Counter -->
+            <!-- SUPPORT SCORE -->
+            <div class="support-score">
 
-            <div class="progress-circle">
+              <div
+                class="score-ring"
+                [style.--progress]="
+                  petition.goal
+                    ? ((petition.currentSignatures / petition.goal * 100) > 100
+                        ? 100
+                        : (petition.currentSignatures / petition.goal * 100))
+                    : 0
+                "
+              >
 
-              <div class="sig-big">
-                {{ petition.currentSignatures | number }}
+                <div class="score-ring-inner">
+
+                  <strong>
+                    {{
+                      petition.goal
+                        ? ((petition.currentSignatures / petition.goal * 100) > 100
+                            ? 100
+                            : (petition.currentSignatures / petition.goal * 100))
+                        : 0
+                    | number:'1.0-0'
+                    }}%
+                  </strong>
+
+                  <span>
+                    Support
+                  </span>
+
+                </div>
+
               </div>
 
-              <span>
-                People have signed
-              </span>
+
+              <div class="support-numbers">
+
+                <div>
+                  <strong>
+                    {{ petition.currentSignatures | number }}
+                  </strong>
+
+                  <span>
+                    Signatures
+                  </span>
+                </div>
+
+
+                <div class="metric-divider"></div>
+
+
+                <div>
+                  <strong>
+                    {{ petition.goal | number }}
+                  </strong>
+
+                  <span>
+                    Goal
+                  </span>
+                </div>
+
+              </div>
 
             </div>
 
 
-            <div class="goal-text">
+            <!-- PROGRESS -->
+            <div class="support-progress">
 
-              <span>
-                Goal
-              </span>
+              <div class="progress-label">
 
-              <strong>
-                {{ petition.goal | number }}
-              </strong>
+                <span>
+                  Community Progress
+                </span>
 
-              <span>
-                signatures
-              </span>
+                <strong>
+                  {{ progressPercent || 0 }}%
+                </strong>
 
-            </div>
-
-
-            <!-- Progress -->
-
-            <div class="progress-wrapper">
+              </div>
 
               <mat-progress-bar
-                class="progress"
                 mode="determinate"
-                [value]="progressValue">
+                [value]="progressPercent || 0">
               </mat-progress-bar>
 
-              <div class="progress-pct">
-                {{ progressValue | number:'1.0-0' }}%
+            </div>
+
+
+            <!-- JOURNEY -->
+            <div class="mini-journey">
+
+              <div class="journey-title">
+
+                <mat-icon>
+                  route
+                </mat-icon>
+
+                Petition Journey
+
               </div>
 
-            </div>
 
+              <div class="journey-track">
 
-            <div class="progress-caption">
-              Petition support level
-            </div>
-
-
-            <!-- Citizen Actions -->
-
-            @if (!isOfficial) {
-
-              <div class="action-area">
-
-                <button
-                  mat-raised-button
-                  color="primary"
-                  class="sign-btn"
-                  [disabled]="signing || !canSign"
-                  (click)="sign()"
+                <div
+                  class="journey-step completed"
                 >
 
-                  <mat-icon>
-                    how_to_vote
-                  </mat-icon>
+                  <span class="journey-dot">
+                    <mat-icon>
+                      campaign
+                    </mat-icon>
+                  </span>
 
-                  {{
-                    signing
-                      ? 'Signing...'
-                      : petition.signedByCurrentUser
-                      ? 'Already Signed'
-                      : petition.status === 'CLOSED'
-                      ? 'Petition Closed'
-                      : 'Sign Petition'
-                  }}
+                  <small>
+                    Created
+                  </small>
 
-                </button>
+                </div>
 
 
-                @if (petition.signedByCurrentUser) {
+                <div
+                  class="journey-line"
+                  [class.active-line]="
+                    petition.status !== 'ACTIVE'
+                  "
+                ></div>
 
-                  <div class="signed-note">
 
+                <div
+                  class="journey-step"
+                  [class.completed]="
+                    petition.status === 'UNDER_REVIEW' ||
+                    petition.status === 'APPROVED' ||
+                    petition.status === 'REJECTED' ||
+                    petition.status === 'CLOSED'
+                  "
+                >
+
+                  <span class="journey-dot">
+                    <mat-icon>
+                      rate_review
+                    </mat-icon>
+                  </span>
+
+                  <small>
+                    Review
+                  </small>
+
+                </div>
+
+
+                <div
+                  class="journey-line"
+                  [class.active-line]="
+                    petition.status === 'APPROVED' ||
+                    petition.status === 'CLOSED'
+                  "
+                ></div>
+
+
+                <div
+                  class="journey-step"
+                  [class.completed]="
+                    petition.status === 'APPROVED' ||
+                    petition.status === 'CLOSED'
+                  "
+                >
+
+                  <span class="journey-dot">
                     <mat-icon>
                       check_circle
                     </mat-icon>
+                  </span>
 
-                    <span>
-                      You have already signed this petition.
-                    </span>
+                  <small>
+                    Approved
+                  </small>
+
+                </div>
+
+
+                <div
+                  class="journey-line"
+                  [class.active-line]="
+                    petition.status === 'CLOSED'
+                  "
+                ></div>
+
+
+                <div
+                  class="journey-step"
+                  [class.completed]="
+                    petition.status === 'CLOSED'
+                  "
+                >
+
+                  <span class="journey-dot">
+                    <mat-icon>
+                      lock
+                    </mat-icon>
+                  </span>
+
+                  <small>
+                    Closed
+                  </small>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- CITIZEN ACTION -->
+            @if (!isOfficial) {
+
+              <div class="support-action">
+
+                @if (petition.signedByCurrentUser) {
+
+                  <div class="signed-success">
+
+                    <div class="signed-success-icon">
+                      <mat-icon>
+                        verified
+                      </mat-icon>
+                    </div>
+
+                    <div>
+                      <strong>
+                        You're Supporting This
+                      </strong>
+
+                      <span>
+                        Your signature has been recorded.
+                      </span>
+                    </div>
 
                   </div>
+
+                }
+
+                @else {
+
+                  <button
+                    mat-raised-button
+                    class="sign-btn"
+                    [disabled]="signing || !canSign"
+                    (click)="sign()"
+                  >
+
+                    <mat-icon>
+                      how_to_vote
+                    </mat-icon>
+
+                    {{
+                      signing
+                        ? 'Signing...'
+                        : petition.status === 'CLOSED'
+                        ? 'Petition Closed'
+                        : 'Sign This Petition'
+                    }}
+
+                  </button>
 
                 }
 
@@ -606,7 +1176,11 @@
                   <button
                     mat-stroked-button
                     class="edit-btn"
-                    routerLink="/petitions/{{petition.id}}/edit"
+                    [routerLink]="[
+                      '/petitions',
+                      petition.id,
+                      'edit'
+                    ]"
                     [disabled]="petition.status !== 'ACTIVE'"
                   >
 
@@ -625,8 +1199,7 @@
             }
 
 
-            <!-- ================= OFFICIAL QUICK PANEL ================= -->
-
+            <!-- OFFICIAL PANEL -->
             @if (isOfficial) {
 
               <div class="official-card">
@@ -634,20 +1207,27 @@
                 <div class="official-header">
 
                   <div class="official-icon">
-                    <mat-icon>verified</mat-icon>
+                    <mat-icon>
+                      verified
+                    </mat-icon>
                   </div>
 
                   <div>
-                    <h3>Petition Management</h3>
-                    <span>Official controls</span>
+                    <h3>
+                      Official Controls
+                    </h3>
+
+                    <span>
+                      Department workflow
+                    </span>
                   </div>
 
                 </div>
 
 
                 <p>
-                  Review this petition and update its civic
-                  status according to the department workflow.
+                  Review and update this petition
+                  according to your department workflow.
                 </p>
 
 
@@ -685,322 +1265,30 @@
                 </mat-form-field>
 
 
-                <button
-                  mat-raised-button
-                  class="status-btn"
-                  [disabled]="updatingStatus"
-                  (click)="updateStatus()"
+                <mat-form-field
+                  appearance="outline"
+                  class="status-field"
                 >
 
-                  <mat-icon>
-                    published_with_changes
-                  </mat-icon>
+                  <mat-label>
+                    Official Comment
+                  </mat-label>
 
-                  {{
-                    updatingStatus
-                      ? 'Updating...'
-                      : 'Update Status'
-                  }}
+                  <textarea
+                    matInput
+                    rows="3"
+                    [(ngModel)]="comment"
+                    placeholder="Add an official update">
+                  </textarea>
 
-                </button>
+                </mat-form-field>
 
 
-                <div class="status-note">
-
-                  <mat-icon>info</mat-icon>
-
-                  <span>
-                    Officials can update workflow status,
-                    but cannot edit citizen petition details.
-                  </span>
-
-                </div>
-
-              </div>
-
-            }
-
-          </mat-card-content>
-
-        </mat-card>
-
-      </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         WORKFLOW INFORMATION
-    ====================================================== -->
-
-
-    @if (
-      petition.status === 'REJECTED' &&
-      petition.rejectionReason
-    ) {
-
-      <mat-card class="workflow-card rejection">
-
-        <mat-card-content>
-
-          <div class="workflow-header">
-
-            <div class="workflow-header-icon rejection-icon">
-              <mat-icon>cancel</mat-icon>
-            </div>
-
-            <div>
-              <h2>Why Was This Petition Rejected?</h2>
-              <span>Official decision and proposed solution</span>
-            </div>
-
-          </div>
-
-
-          <div class="workflow-content">
-
-            <div class="workflow-block">
-
-              <label>
-                Rejection Reason
-              </label>
-
-              <p>
-                {{ petition.rejectionReason }}
-              </p>
-
-            </div>
-
-
-            @if (petition.proposedSolution) {
-
-              <div class="workflow-block solution-block">
-
-                <label>
-                  Proposed Solution
-                </label>
-
-                <p>
-                  {{ petition.proposedSolution }}
-                </p>
-
-              </div>
-
-            }
-
-          </div>
-
-        </mat-card-content>
-
-      </mat-card>
-
-    }
-
-
-    @if (
-      petition.status === 'APPROVED' &&
-      petition.actionPlan
-    ) {
-
-      <mat-card class="workflow-card approved">
-
-        <mat-card-content>
-
-          <div class="workflow-header">
-
-            <div class="workflow-header-icon approved-icon">
-              <mat-icon>check_circle</mat-icon>
-            </div>
-
-            <div>
-              <h2>Action Plan</h2>
-              <span>Officially approved implementation plan</span>
-            </div>
-
-          </div>
-
-
-          <div class="action-plan-grid">
-
-            <div class="workflow-block full-width">
-
-              <label>
-                Action Plan
-              </label>
-
-              <p>
-                {{ petition.actionPlan }}
-              </p>
-
-            </div>
-
-
-            <div class="workflow-block">
-
-              <label>
-                Responsible Person
-              </label>
-
-              <p>
-                {{ petition.responsiblePerson }}
-              </p>
-
-            </div>
-
-
-            <div class="workflow-block">
-
-              <label>
-                Designation
-              </label>
-
-              <p>
-                {{ petition.responsibleDesignation }}
-              </p>
-
-            </div>
-
-
-            <div class="workflow-block">
-
-              <label>
-                Department
-              </label>
-
-              <p>
-                {{ petition.responsibleDepartment }}
-              </p>
-
-            </div>
-
-
-            <div class="workflow-block">
-
-              <label>
-                Expected Completion
-              </label>
-
-              <p>
-                {{ petition.expectedCompletionAt | date:'mediumDate' }}
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="work-progress-box">
-
-            <div class="work-progress-top">
-
-              <span>
-                Work Progress
-              </span>
-
-              <strong>
-                {{ progressValue | number:'1.0-0' }}%
-              </strong>
-
-            </div>
-
-            <mat-progress-bar
-              mode="determinate"
-              [value]="progressValue">
-            </mat-progress-bar>
-
-          </div>
-
-        </mat-card-content>
-
-      </mat-card>
-
-    }
-
-
-    <!-- =====================================================
-         OFFICIAL WORK MANAGEMENT
-    ====================================================== -->
-
-    @if (isOfficial) {
-
-      <mat-card class="workflow-card management-card">
-
-        <mat-card-content>
-
-          <div class="workflow-header">
-
-            <div class="workflow-header-icon management-icon">
-              <mat-icon>admin_panel_settings</mat-icon>
-            </div>
-
-            <div>
-              <h2>Official Work Management</h2>
-              <span>
-                Manage decision, implementation and completion
-              </span>
-            </div>
-
-          </div>
-
-
-          <!-- Decision -->
-
-          @if (
-            petition.status === 'ACTIVE' ||
-            petition.status === 'UNDER_REVIEW'
-          ) {
-
-            <div class="management-section">
-
-              <div class="management-section-title">
-                <mat-icon>gavel</mat-icon>
-                <span>Decision</span>
-              </div>
-
-
-              <mat-form-field
-                appearance="outline"
-                class="full-field"
-              >
-
-                <mat-label>
-                  Status
-                </mat-label>
-
-                <mat-select
-                  [(ngModel)]="selectedStatus"
-                >
-
-                  <mat-option value="UNDER_REVIEW">
-                    Under Review
-                  </mat-option>
-
-                  <mat-option value="APPROVED">
-                    Approved
-                  </mat-option>
-
-                  <mat-option value="REJECTED">
-                    Rejected
-                  </mat-option>
-
-                </mat-select>
-
-              </mat-form-field>
-
-
-              @if (selectedStatus === 'REJECTED') {
-
-                <div class="decision-box rejection-box">
-
-                  <div class="decision-box-title">
-                    <mat-icon>cancel</mat-icon>
-                    Rejection Information
-                  </div>
-
+                @if (selectedStatus === 'REJECTED') {
 
                   <mat-form-field
                     appearance="outline"
-                    class="full-field"
+                    class="status-field"
                   >
 
                     <mat-label>
@@ -1018,7 +1306,7 @@
 
                   <mat-form-field
                     appearance="outline"
-                    class="full-field"
+                    class="status-field"
                   >
 
                     <mat-label>
@@ -1033,24 +1321,14 @@
 
                   </mat-form-field>
 
-                </div>
-
-              }
+                }
 
 
-              @if (selectedStatus === 'APPROVED') {
-
-                <div class="decision-box approved-box">
-
-                  <div class="decision-box-title">
-                    <mat-icon>check_circle</mat-icon>
-                    Implementation Plan
-                  </div>
-
+                @if (selectedStatus === 'APPROVED') {
 
                   <mat-form-field
                     appearance="outline"
-                    class="full-field"
+                    class="status-field"
                   >
 
                     <mat-label>
@@ -1066,477 +1344,227 @@
                   </mat-form-field>
 
 
-                  <div class="two-column-fields">
-
-                    <mat-form-field appearance="outline">
-
-                      <mat-label>
-                        Responsible Person
-                      </mat-label>
-
-                      <input
-                        matInput
-                        [(ngModel)]="responsiblePerson">
-
-                    </mat-form-field>
-
-
-                    <mat-form-field appearance="outline">
-
-                      <mat-label>
-                        Designation
-                      </mat-label>
-
-                      <input
-                        matInput
-                        [(ngModel)]="responsibleDesignation">
-
-                    </mat-form-field>
-
-
-                    <mat-form-field appearance="outline">
-
-                      <mat-label>
-                        Responsible Department
-                      </mat-label>
-
-                      <input
-                        matInput
-                        [(ngModel)]="responsibleDepartment">
-
-                    </mat-form-field>
-
-
-                    <mat-form-field appearance="outline">
-
-                      <mat-label>
-                        Work Start
-                      </mat-label>
-
-                      <input
-                        matInput
-                        type="datetime-local"
-                        [(ngModel)]="workStartAt">
-
-                    </mat-form-field>
-
-
-                    <mat-form-field
-                      appearance="outline"
-                      class="completion-field"
-                    >
-
-                      <mat-label>
-                        Expected Completion
-                      </mat-label>
-
-                      <input
-                        matInput
-                        type="datetime-local"
-                        [(ngModel)]="expectedCompletionAt">
-
-                    </mat-form-field>
-
-                  </div>
-
-                </div>
-
-              }
-
-
-              <mat-form-field
-                appearance="outline"
-                class="full-field"
-              >
-
-                <mat-label>
-                  Official Comment
-                </mat-label>
-
-                <textarea
-                  matInput
-                  rows="3"
-                  [(ngModel)]="comment">
-                </textarea>
-
-              </mat-form-field>
-
-
-              <button
-                mat-raised-button
-                class="decision-btn"
-                [disabled]="updatingStatus"
-                (click)="decision()"
-              >
-
-                <mat-icon>
-                  published_with_changes
-                </mat-icon>
-
-                {{
-                  updatingStatus
-                    ? 'Updating...'
-                    : 'Update Petition'
-                }}
-
-              </button>
-
-            </div>
-
-          }
-
-
-          <!-- Progress Management -->
-
-          @if (petition.status === 'APPROVED') {
-
-            <div class="management-section progress-management">
-
-              <div class="management-section-title">
-
-                <mat-icon>trending_up</mat-icon>
-
-                <span>
-                  Work Progress
-                </span>
-
-              </div>
-
-
-              <div class="progress-editor">
-
-                <div class="progress-value">
-
-                  <strong>
-                    {{ progressPercent }}%
-                  </strong>
-
-                  <span>
-                    Completion
-                  </span>
-
-                </div>
-
-
-                <mat-form-field
-                  appearance="outline"
-                  class="full-field"
-                >
-
-                  <mat-label>
-                    Progress Percentage
-                  </mat-label>
-
-                  <input
-                    matInput
-                    type="number"
-                    min="0"
-                    max="100"
-                    [(ngModel)]="progressPercent"
+                  <mat-form-field
+                    appearance="outline"
+                    class="status-field"
                   >
 
-                </mat-form-field>
+                    <mat-label>
+                      Responsible Person
+                    </mat-label>
 
-              </div>
+                    <input
+                      matInput
+                      [(ngModel)]="responsiblePerson"
+                    />
 
-
-              <mat-form-field
-                appearance="outline"
-                class="full-field"
-              >
-
-                <mat-label>
-                  Completed Activities
-                </mat-label>
-
-                <textarea
-                  matInput
-                  rows="3"
-                  [(ngModel)]="completedWork">
-                </textarea>
-
-              </mat-form-field>
+                  </mat-form-field>
 
 
-              <mat-form-field
-                appearance="outline"
-                class="full-field"
-              >
+                  <mat-form-field
+                    appearance="outline"
+                    class="status-field"
+                  >
 
-                <mat-label>
-                  Pending Activities
-                </mat-label>
+                    <mat-label>
+                      Designation
+                    </mat-label>
 
-                <textarea
-                  matInput
-                  rows="3"
-                  [(ngModel)]="pendingWork">
-                </textarea>
+                    <input
+                      matInput
+                      [(ngModel)]="responsibleDesignation"
+                    />
 
-              </mat-form-field>
-
-
-              <mat-form-field
-                appearance="outline"
-                class="full-field"
-              >
-
-                <mat-label>
-                  Pending Reason
-                </mat-label>
-
-                <textarea
-                  matInput
-                  rows="3"
-                  [(ngModel)]="pendingReason">
-                </textarea>
-
-              </mat-form-field>
+                  </mat-form-field>
 
 
-              <div class="management-actions">
+                  <mat-form-field
+                    appearance="outline"
+                    class="status-field"
+                  >
 
-                <button
-                  mat-stroked-button
-                  class="save-progress-btn"
-                  (click)="progress()"
-                >
+                    <mat-label>
+                      Responsible Department
+                    </mat-label>
 
-                  <mat-icon>
-                    save
-                  </mat-icon>
+                    <input
+                      matInput
+                      [(ngModel)]="responsibleDepartment"
+                    />
 
-                  Save Progress
+                  </mat-form-field>
 
-                </button>
+
+                  <mat-form-field
+                    appearance="outline"
+                    class="status-field"
+                  >
+
+                    <mat-label>
+                      Expected Completion
+                    </mat-label>
+
+                    <input
+                      matInput
+                      type="datetime-local"
+                      [(ngModel)]="expectedCompletionAt"
+                    />
+
+                  </mat-form-field>
+
+                }
 
 
                 <button
                   mat-raised-button
-                  class="complete-btn"
-                  (click)="complete()"
+                  class="status-btn"
+                  [disabled]="updatingStatus"
+                  (click)="decision()"
                 >
 
                   <mat-icon>
-                    task_alt
+                    published_with_changes
                   </mat-icon>
 
-                  Mark Work Completed
+                  {{
+                    updatingStatus
+                      ? 'Updating...'
+                      : 'Update Status'
+                  }}
 
                 </button>
 
               </div>
 
-            </div>
-
-          }
+            }
 
 
-          <!-- Close Petition -->
+            <!-- QUICK INFO -->
+            <div class="quick-info">
 
-          @if (petition.status === 'UNDER_REVIEW') {
-
-            <div class="close-panel">
-
-              <div class="close-icon">
-                <mat-icon>verified</mat-icon>
-              </div>
-
-              <div class="close-content">
-
-                <strong>
-                  Ready to Close?
-                </strong>
-
-                <span>
-                  Petition can be closed when positive citizen
-                  reviews reach 75% or more.
-                </span>
-
-              </div>
-
-
-              <button
-                mat-raised-button
-                class="close-btn"
-                (click)="close()"
-              >
+              <div class="quick-info-title">
 
                 <mat-icon>
-                  lock
+                  info
                 </mat-icon>
 
-                Close Petition
+                Petition Information
 
-              </button>
+              </div>
+
+
+              <div class="quick-info-row">
+
+                <div class="quick-icon blue">
+                  <mat-icon>
+                    location_on
+                  </mat-icon>
+                </div>
+
+                <div>
+                  <small>Location</small>
+
+                  <strong>
+                    {{ petition.location }}
+                  </strong>
+                </div>
+
+              </div>
+
+
+              <div class="quick-info-row">
+
+                <div class="quick-icon green">
+                  <mat-icon>
+                    account_balance
+                  </mat-icon>
+                </div>
+
+                <div>
+                  <small>Department</small>
+
+                  <strong>
+                    {{ petition.department || 'Not Assigned' }}
+                  </strong>
+                </div>
+
+              </div>
+
+
+              <div class="quick-info-row">
+
+                <div class="quick-icon purple">
+                  <mat-icon>
+                    category
+                  </mat-icon>
+                </div>
+
+                <div>
+                  <small>Category</small>
+
+                  <strong>
+                    {{ petition.category }}
+                  </strong>
+                </div>
+
+              </div>
+
+
+              <div class="quick-info-row">
+
+                <div class="quick-icon orange">
+                  <mat-icon>
+                    person
+                  </mat-icon>
+                </div>
+
+                <div>
+                  <small>Created By</small>
+
+                  <strong>
+                    {{ petition.creatorName }}
+                  </strong>
+                </div>
+
+              </div>
 
             </div>
 
-          }
+          </mat-card-content>
 
-        </mat-card-content>
+        </mat-card>
 
-      </mat-card>
+      </div>
 
-    }
-
-
-    <!-- =====================================================
-         CITIZEN REVIEW
-    ====================================================== -->
-
-    @if (
-      !isOfficial &&
-      petition.status === 'UNDER_REVIEW' &&
-      petition.signedByCurrentUser
-    ) {
-
-      <mat-card class="workflow-card review-card">
-
-        <mat-card-content>
-
-          <div class="workflow-header">
-
-            <div class="workflow-header-icon review-icon">
-              <mat-icon>rate_review</mat-icon>
-            </div>
-
-            <div>
-              <h2>Citizen Review</h2>
-              <span>
-                Share your experience after the work is completed
-              </span>
-            </div>
-
-          </div>
-
-
-          <div class="review-summary">
-
-            <div class="review-score">
-
-              <strong>
-                {{ positivePercentage }}%
-              </strong>
-
-              <span>
-                Positive Reviews
-              </span>
-
-            </div>
-
-
-            <div class="review-info">
-
-              <mat-icon>info</mat-icon>
-
-              <span>
-                Your feedback helps determine whether this
-                petition is ready to be closed.
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <mat-form-field
-            appearance="outline"
-            class="review-field"
-          >
-
-            <mat-label>
-              Rating
-            </mat-label>
-
-            <mat-select
-              [(ngModel)]="reviewRating"
-            >
-
-              <mat-option [value]="5">
-                ⭐ 5 Stars
-              </mat-option>
-
-              <mat-option [value]="4">
-                ⭐ 4 Stars
-              </mat-option>
-
-              <mat-option [value]="3">
-                ⭐ 3 Stars
-              </mat-option>
-
-              <mat-option [value]="2">
-                ⭐ 2 Stars
-              </mat-option>
-
-              <mat-option [value]="1">
-                ⭐ 1 Star
-              </mat-option>
-
-            </mat-select>
-
-          </mat-form-field>
-
-
-          <mat-form-field
-            appearance="outline"
-            class="full-field"
-          >
-
-            <mat-label>
-              Your Review
-            </mat-label>
-
-            <textarea matInput rows="4" [(ngModel)]="reviewDescription">
-            </textarea>
-
-          </mat-form-field>
-
-
-          <button
-            mat-raised-button
-            class="review-submit-btn"
-            (click)="submitReview()"
-          >
-
-            <mat-icon>
-              send
-            </mat-icon>
-
-            Submit Review
-
-          </button>
-
-        </mat-card-content>
-
-      </mat-card>
-
-    }
+    </div>
 
   }
 
 
   @else {
 
-    <!-- ================= LOADING ================= -->
-
+    <!-- EMPTY / LOADING -->
     <div class="empty-state">
 
-      <div class="loading-spinner">
-
-        <mat-icon>
-          hourglass_top
-        </mat-icon>
-
-      </div>
+      <mat-icon>
+        description
+      </mat-icon>
 
       <h2>
-        Loading Petition...
+        Petition Not Found
       </h2>
 
       <p>
-        Please wait while we fetch the petition details.
+        The petition could not be loaded.
       </p>
+
+      <button
+        mat-raised-button
+        color="primary"
+        routerLink="/petitions"
+      >
+        Back to Petitions
+      </button>
 
     </div>
 

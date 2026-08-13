@@ -1,55 +1,707 @@
 <div class="page-container">
-    <div class="page-header">
-      <h1><mat-icon>add_circle</mat-icon> Create a New Petition</h1>
-      <p>Complete the form below to publish a petition in your community.</p>
-    </div>
-    <div class="form-container">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline">
-          <mat-label>Petition Title</mat-label>
-          <input matInput formControlName="title" placeholder="A clear, concise title...">
-          @if (form.get('title')?.hasError('minlength') && form.get('title')?.touched) {
-            <mat-error>Title must be at least 10 characters</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" rows="6" placeholder="Explain the issue and why it matters..."></textarea>
-          @if (form.get('description')?.hasError('minlength') && form.get('description')?.touched) {
-            <mat-error>Description must be at least 50 characters</mat-error>
-          }
-        </mat-form-field>
-        <div class="form-row">
-          <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category">
-              @for (cat of categories; track cat) { <mat-option [value]="cat">{{ cat }}</mat-option> }
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Location</mat-label>
-            <input matInput formControlName="location" placeholder="City, State">
-          </mat-form-field>
-        </div>
-        <mat-form-field appearance="outline">
-  <mat-label>Department</mat-label>
-  <mat-select formControlName="department">
-    @for (d of departments; track d.id) { <mat-option [value]="d.name">{{ d.name }}</mat-option> }
-  </mat-select>
-</mat-form-field>
 
-<mat-form-field appearance="outline">
-          <mat-label>Signature Goal</mat-label>
-          <input matInput type="number" formControlName="goal" min="10">
-          <mat-hint>Minimum 10 signatures required</mat-hint>
-        </mat-form-field>
-        <div class="form-actions">
-          <button mat-stroked-button type="button" routerLink="/petitions">Cancel</button>
-          <button mat-raised-button color="primary" type="submit" [disabled]="loading || form.invalid">
-            <mat-icon>publish</mat-icon> {{ loading ? 'Publishing...' : 'Publish Petition' }}
-          </button>
+  <!-- ================= PAGE HEADER ================= -->
+
+  <div class="page-header">
+
+    <div class="header-icon">
+      <mat-icon>campaign</mat-icon>
+    </div>
+
+    <div class="header-content">
+      <div class="eyebrow">
+        CIVIC ENGAGEMENT
+      </div>
+
+      <h1>
+        Create a New Petition
+      </h1>
+
+      <p>
+        Raise an issue, bring your community together,
+        and make your voice heard.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- ================= MAIN CONTENT ================= -->
+
+  <div class="create-layout">
+
+    <!-- =================================================
+         FORM
+    ================================================== -->
+
+    <div class="form-container">
+
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+      >
+
+        <!-- BASIC INFORMATION -->
+
+        <div class="form-section">
+
+          <div class="section-title">
+
+            <div class="section-icon blue">
+              <mat-icon>edit_document</mat-icon>
+            </div>
+
+            <div>
+              <h2>Petition Details</h2>
+
+              <p>
+                Clearly explain the issue you want
+                your community to support.
+              </p>
+            </div>
+
+          </div>
+
+
+          <!-- TITLE -->
+
+          <mat-form-field
+            appearance="outline"
+            class="full-width"
+          >
+
+            <mat-label>
+              Petition Title
+            </mat-label>
+
+            <mat-icon
+              matPrefix
+              class="field-icon"
+            >
+              title
+            </mat-icon>
+
+            <input
+              matInput
+              formControlName="title"
+              maxlength="200"
+              placeholder="Write a clear and meaningful title..."
+            >
+
+            @if (
+              form.get('title')?.hasError('required') &&
+              form.get('title')?.touched
+            ) {
+              <mat-error>
+                Petition title is required
+              </mat-error>
+            }
+
+            @if (
+              form.get('title')?.hasError('minlength') &&
+              form.get('title')?.touched
+            ) {
+              <mat-error>
+                Title must be at least 10 characters
+              </mat-error>
+            }
+
+            <mat-hint align="end">
+              {{ form.get('title')?.value?.length || 0 }}/200
+            </mat-hint>
+
+          </mat-form-field>
+
+
+          <!-- DESCRIPTION -->
+
+          <mat-form-field
+            appearance="outline"
+            class="full-width"
+          >
+
+            <mat-label>
+              Describe the Issue
+            </mat-label>
+
+            <mat-icon
+              matPrefix
+              class="field-icon textarea-icon"
+            >
+              description
+            </mat-icon>
+
+            <textarea
+              matInput
+              formControlName="description"
+              rows="7"
+              maxlength="5000"
+              placeholder="Explain the problem, why it matters, and what change you want to see..."
+            ></textarea>
+
+            @if (
+              form.get('description')?.hasError('required') &&
+              form.get('description')?.touched
+            ) {
+              <mat-error>
+                Description is required
+              </mat-error>
+            }
+
+            @if (
+              form.get('description')?.hasError('minlength') &&
+              form.get('description')?.touched
+            ) {
+              <mat-error>
+                Description must be at least 50 characters
+              </mat-error>
+            }
+
+            <mat-hint align="end">
+              {{ form.get('description')?.value?.length || 0 }}/5000
+            </mat-hint>
+
+          </mat-form-field>
+
         </div>
+
+
+        <!-- LOCATION & CATEGORY -->
+
+        <div class="form-section">
+
+          <div class="section-title">
+
+            <div class="section-icon purple">
+              <mat-icon>category</mat-icon>
+            </div>
+
+            <div>
+              <h2>Classification</h2>
+
+              <p>
+                Help CIVIX route your petition to
+                the appropriate department.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="form-grid">
+
+            <!-- CATEGORY -->
+
+            <mat-form-field appearance="outline">
+
+              <mat-label>
+                Category
+              </mat-label>
+
+              <mat-icon
+                matPrefix
+                class="field-icon"
+              >
+                category
+              </mat-icon>
+
+              <mat-select formControlName="category">
+
+                @for (
+                  cat of categories;
+                  track cat
+                ) {
+
+                  <mat-option [value]="cat">
+                    {{ cat }}
+                  </mat-option>
+
+                }
+
+              </mat-select>
+
+              @if (
+                form.get('category')?.hasError('required') &&
+                form.get('category')?.touched
+              ) {
+                <mat-error>
+                  Please select a category
+                </mat-error>
+              }
+
+            </mat-form-field>
+
+
+            <!-- LOCATION -->
+
+            <mat-form-field appearance="outline">
+
+              <mat-label>
+                Location
+              </mat-label>
+
+              <mat-icon
+                matPrefix
+                class="field-icon"
+              >
+                location_on
+              </mat-icon>
+
+              <input
+                matInput
+                formControlName="location"
+                placeholder="City, State"
+              >
+
+              @if (
+                form.get('location')?.hasError('required') &&
+                form.get('location')?.touched
+              ) {
+                <mat-error>
+                  Location is required
+                </mat-error>
+              }
+
+            </mat-form-field>
+
+          </div>
+
+
+          <!-- DEPARTMENT -->
+
+          <mat-form-field
+            appearance="outline"
+            class="full-width"
+          >
+
+            <mat-label>
+              Responsible Department
+            </mat-label>
+
+            <mat-icon
+              matPrefix
+              class="field-icon"
+            >
+              account_balance
+            </mat-icon>
+
+            <mat-select
+              formControlName="department"
+            >
+
+              @for (
+                d of departments;
+                track d.id
+              ) {
+
+                <mat-option [value]="d.name">
+
+                  <span class="department-option">
+
+                    <mat-icon>
+                      account_balance
+                    </mat-icon>
+
+                    {{ d.name }}
+
+                  </span>
+
+                </mat-option>
+
+              }
+
+            </mat-select>
+
+            <mat-hint>
+              Your petition will be routed to officials
+              belonging to this department.
+            </mat-hint>
+
+            @if (
+              form.get('department')?.hasError('required') &&
+              form.get('department')?.touched
+            ) {
+              <mat-error>
+                Please select a department
+              </mat-error>
+            }
+
+          </mat-form-field>
+
+        </div>
+
+
+        <!-- SUPPORT GOAL -->
+
+        <div class="form-section">
+
+          <div class="section-title">
+
+            <div class="section-icon green">
+              <mat-icon>groups</mat-icon>
+            </div>
+
+            <div>
+              <h2>Community Support</h2>
+
+              <p>
+                Set the number of signatures you want
+                to collect from citizens.
+              </p>
+            </div>
+
+          </div>
+
+
+          <mat-form-field
+            appearance="outline"
+            class="goal-field"
+          >
+
+            <mat-label>
+              Signature Goal
+            </mat-label>
+
+            <mat-icon
+              matPrefix
+              class="field-icon"
+            >
+              how_to_vote
+            </mat-icon>
+
+            <input
+              matInput
+              type="number"
+              formControlName="goal"
+              min="10"
+            >
+
+            <span matSuffix>
+              signatures
+            </span>
+
+            <mat-hint>
+              Minimum 10 signatures required
+            </mat-hint>
+
+            @if (
+              form.get('goal')?.hasError('required') &&
+              form.get('goal')?.touched
+            ) {
+              <mat-error>
+                Signature goal is required
+              </mat-error>
+            }
+
+            @if (
+              form.get('goal')?.hasError('min') &&
+              form.get('goal')?.touched
+            ) {
+              <mat-error>
+                Minimum goal is 10 signatures
+              </mat-error>
+            }
+
+          </mat-form-field>
+
+
+          <!-- SUPPORT INFO -->
+
+          <div class="support-info">
+
+            <div class="support-info-icon">
+              <mat-icon>
+                lightbulb
+              </mat-icon>
+            </div>
+
+            <div>
+
+              <strong>
+                Set a realistic goal
+              </strong>
+
+              <p>
+                A clear and achievable signature goal
+                can help your petition gain meaningful
+                community participation.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="form-actions">
+
+          <button
+            mat-stroked-button
+            type="button"
+            routerLink="/petitions"
+            class="cancel-btn"
+          >
+
+            <mat-icon>
+              close
+            </mat-icon>
+
+            Cancel
+
+          </button>
+
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="publish-btn"
+            [disabled]="loading || form.invalid"
+          >
+
+            @if (loading) {
+
+              <mat-icon>
+                sync
+              </mat-icon>
+
+              Publishing...
+
+            }
+
+            @else {
+
+              <mat-icon>
+                publish
+              </mat-icon>
+
+              Publish Petition
+
+            }
+
+          </button>
+
+        </div>
+
       </form>
+
     </div>
-    </div>
-    
+
+
+    <!-- =================================================
+         RIGHT SIDE INFORMATION
+    ================================================== -->
+
+    <aside class="info-sidebar">
+
+      <!-- CIVIX CARD -->
+
+      <div class="civic-card">
+
+        <div class="civic-card-top">
+
+          <div class="civic-logo">
+            <mat-icon>
+              account_balance
+            </mat-icon>
+          </div>
+
+          <div>
+
+            <span>
+              CIVIX
+            </span>
+
+            <strong>
+              Your Voice Matters
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="civic-message">
+
+          <h3>
+            Turn an Issue Into Action
+          </h3>
+
+          <p>
+            Create a petition to bring attention
+            to a public issue and encourage citizens
+            to participate.
+          </p>
+
+        </div>
+
+
+        <div class="steps">
+
+          <div class="step">
+
+            <div class="step-number">
+              01
+            </div>
+
+            <div>
+              <strong>
+                Explain the issue
+              </strong>
+
+              <span>
+                Clearly describe the problem.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              02
+            </div>
+
+            <div>
+              <strong>
+                Choose the department
+              </strong>
+
+              <span>
+                Your petition is routed accordingly.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              03
+            </div>
+
+            <div>
+              <strong>
+                Build community support
+              </strong>
+
+              <span>
+                Citizens can sign your petition.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              04
+            </div>
+
+            <div>
+              <strong>
+                Track the response
+              </strong>
+
+              <span>
+                Follow official actions and progress.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- GUIDELINES -->
+
+      <div class="guidelines-card">
+
+        <div class="guidelines-header">
+
+          <mat-icon>
+            verified
+          </mat-icon>
+
+          <div>
+            <strong>
+              Petition Guidelines
+            </strong>
+
+            <span>
+              Before publishing
+            </span>
+          </div>
+
+        </div>
+
+
+        <ul>
+
+          <li>
+            <mat-icon>check</mat-icon>
+            Use a clear and specific title.
+          </li>
+
+          <li>
+            <mat-icon>check</mat-icon>
+            Explain the issue with sufficient detail.
+          </li>
+
+          <li>
+            <mat-icon>check</mat-icon>
+            Select the correct department.
+          </li>
+
+          <li>
+            <mat-icon>check</mat-icon>
+            Provide the correct location.
+          </li>
+
+          <li>
+            <mat-icon>check</mat-icon>
+            Set a meaningful support goal.
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <!-- PRIVACY -->
+
+      <div class="privacy-card">
+
+        <mat-icon>
+          security
+        </mat-icon>
+
+        <div>
+
+          <strong>
+            Civic Transparency
+          </strong>
+
+          <p>
+            Your petition and its progress can be
+            viewed by the relevant civic authorities
+            and community members.
+          </p>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</div>

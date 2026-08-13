@@ -196,56 +196,66 @@ public class PetitionServiceImpl implements PetitionService {
         return map(p);
     }
 
-    @Override
-public List<ActivityResponse> getTimeline(Long id) {
 
-    Petition p = repo.findById(id)
-            .orElseThrow(() ->
-                    new RuntimeException("Petition not found"));
 
-    User u = me();
 
-    // Official can only access authorized department petitions
-    if (u.getRole() == Role.OFFICIAL) {
-        officialAccess(p, u);
-    }
 
-    // Citizen can only see their own petition timeline
-    if (u.getRole() == Role.CITIZEN
-            && !p.getCreator().getId().equals(u.getId())) {
 
-        throw new RuntimeException(
-                "You are not allowed to view this petition timeline"
-        );
-    }
+    
+//     @Override
+// public List<ActivityResponse> getTimeline(Long id) {
 
-    return activities
-            .findByPetitionOrderByCreatedAtAsc(p)
-            .stream()
-            .map(a -> ActivityResponse.builder()
-                    .id(a.getId())
-                    .action(a.getAction())
-                    .description(a.getDescription())
-                    .officialName(
-                            a.getOfficial() != null
-                                    ? a.getOfficial().getName()
-                                    : null
-                    )
-                    .designation(
-                            a.getOfficial() != null
-                                    ? a.getOfficial().getDesignation()
-                                    : null
-                    )
-                    .department(
-                            a.getOfficial() != null
-                                    ? a.getOfficial().getDepartment()
-                                    : null
-                    )
-                    .createdAt(a.getCreatedAt())
-                    .build()
-            )
-            .toList();
-}
+//     Petition p = repo.findById(id)
+//             .orElseThrow(() ->
+//                     new RuntimeException("Petition not found"));
+
+//     User u = me();
+
+//     // Official can only access authorized department petitions
+//     if (u.getRole() == Role.OFFICIAL) {
+//         officialAccess(p, u);
+//     }
+
+//     // Citizen can only see their own petition timeline
+//     if (u.getRole() == Role.CITIZEN
+//             && !p.getCreator().getId().equals(u.getId())) {
+
+//         throw new RuntimeException(
+//                 "You are not allowed to view this petition timeline"
+//         );
+//     }
+
+//     return activities
+//             .findByPetitionOrderByCreatedAtAsc(p)
+//             .stream()
+//             .map(a -> ActivityResponse.builder()
+//                     .id(a.getId())
+//                     .action(a.getAction())
+//                     .description(a.getDescription())
+//                     .officialName(
+//                             a.getOfficial() != null
+//                                     ? a.getOfficial().getName()
+//                                     : null
+//                     )
+//                     .designation(
+//                             a.getOfficial() != null
+//                                     ? a.getOfficial().getDesignation()
+//                                     : null
+//                     )
+//                     .department(
+//                             a.getOfficial() != null
+//                                     ? a.getOfficial().getDepartment()
+//                                     : null
+//                     )
+//                     .createdAt(a.getCreatedAt())
+//                     .build()
+//             )
+//             .toList();
+// }
+
+
+
+
 
 
 

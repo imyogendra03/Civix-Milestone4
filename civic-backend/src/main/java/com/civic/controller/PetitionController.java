@@ -105,12 +105,12 @@ public class PetitionController {
     // ⭐ PETITION TIMELINE
     // ============================================================
 
-    @GetMapping("/{id}/timeline")
-    public List<ActivityResponse> timeline(
-            @PathVariable Long id) {
+    // @GetMapping("/{id}/timeline")
+    // public List<ActivityResponse> timeline(
+    //         @PathVariable Long id) {
 
-        return s.getTimeline(id);
-    }
+    //     return s.getTimeline(id);
+    // }
 
 
     // ============================================================

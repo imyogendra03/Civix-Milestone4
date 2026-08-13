@@ -1,0 +1,3 @@
+import {Injectable,inject} from '@angular/core'; import {HttpClient} from '@angular/common/http'; import {Observable} from 'rxjs'; import {environment} from '../../environments/environment';
+export interface Department{id:number;name:string;active:boolean;}
+@Injectable({providedIn:'root'}) export class DepartmentService {private http=inject(HttpClient);private url=environment.apiUrl+'/departments';getAll():Observable<Department[]>{return this.http.get<Department[]>(this.url);}create(name:string){return this.http.post<Department>(this.url,{name});}update(id:number,name:string){return this.http.put<Department>(`${this.url}/${id}`,{name});}delete(id:number){return this.http.delete<void>(`${this.url}/${id}`);}}

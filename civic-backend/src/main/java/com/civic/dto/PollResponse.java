@@ -1,0 +1,2 @@
+package com.civic.dto; import com.civic.enums.PollStatus; import lombok.*; import java.time.LocalDateTime; import java.util.*;
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder public class PollResponse {Long id;String title,description,targetLocation,department,createdByName;Long createdById;List<String> options;PollStatus status;LocalDateTime closeDate,createdAt,updatedAt;long totalVotes;boolean votedByCurrentUser,createdByCurrentUser;}

@@ -1,0 +1,162 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <button mat-button routerLink="/polls">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Polls
+    </button>
+
+    <h1>
+      <mat-icon color="primary">how_to_vote</mat-icon>
+      Vote in Poll
+    </h1>
+
+    <p>Cast your vote and make your voice heard.</p>
+  </div>
+
+  @if (poll) {
+
+    <mat-card class="vote-card">
+
+      <mat-card-header>
+
+        <mat-card-title>
+          {{ poll.title }}
+        </mat-card-title>
+
+        <mat-card-subtitle>
+          {{ poll.description }}
+        </mat-card-subtitle>
+
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <div class="poll-meta">
+
+          <span>
+            <mat-icon>schedule</mat-icon>
+            Ends {{ poll.closeDate | date:'mediumDate' }}
+          </span>
+
+          <span>
+            <mat-icon>how_to_vote</mat-icon>
+            {{ poll.totalVotes }} Votes
+          </span>
+
+        </div>
+
+        @if (!hasVoted) {
+
+          <p class="vote-instruction">
+            Please choose one option below.
+          </p>
+
+          <mat-radio-group
+            [(ngModel)]="selectedOption"
+            class="options-group">
+
+            @for (option of poll.options; track option) {
+
+              <mat-radio-button
+                class="option-btn"
+                [value]="option">
+
+                {{ option }}
+
+              </mat-radio-button>
+
+            }
+
+          </mat-radio-group>
+
+        }
+
+        @else {
+
+          <div class="already-voted">
+
+            <mat-icon color="primary">check_circle</mat-icon>
+
+            <h3>You have already voted!</h3>
+
+            <p>Thank you for participating in this poll.</p>
+
+          </div>
+
+        }
+
+      </mat-card-content>
+
+      <mat-card-actions class="form-actions">
+
+        <button
+          mat-stroked-button
+          routerLink="/polls">
+
+          Cancel
+
+        </button>
+
+        @if (!hasVoted) {
+
+          <button
+            mat-raised-button
+            color="primary"
+            class="submit-btn"
+            [disabled]="!selectedOption || submitting"
+            (click)="vote()">
+
+            <mat-icon>how_to_vote</mat-icon>
+
+            {{ submitting ? 'Submitting...' : 'Submit Vote' }}
+
+          </button>
+
+        }
+
+        @else {
+
+          <button
+            mat-raised-button
+            color="primary"
+            disabled>
+
+            <mat-icon>check_circle</mat-icon>
+
+            Voted
+
+          </button>
+
+        }
+
+        <button
+          mat-button
+          color="accent"
+          [routerLink]="['/polls', poll.id, 'results']">
+
+          <mat-icon>bar_chart</mat-icon>
+
+          View Results
+
+        </button>
+
+      </mat-card-actions>
+
+    </mat-card>
+
+  }
+
+  @else {
+
+    <div class="loading-state">
+
+      <mat-spinner diameter="50"></mat-spinner>
+
+      <p>Loading poll...</p>
+
+    </div>
+
+  }
+
+</div>

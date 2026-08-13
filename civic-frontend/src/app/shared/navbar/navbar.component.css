@@ -1,0 +1,19 @@
+.navbar { background: linear-gradient(135deg, #0f3d67 0%, #1565c0 52%, #14b8a6 100%); color: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 14px 35px rgba(15, 61, 103, 0.24); min-height: 64px; padding: 0 20px; }
+    .navbar button[mat-icon-button] { color: #fff; }
+    .brand { display: flex; align-items: center; gap: 8px; margin-left: 6px; }
+    .brand-icon { font-size: 26px; width: 26px; height: 26px; }
+    .brand-name { font-size: 20px; font-weight: 700; }
+    .spacer { flex: 1; }
+    .user-btn { color: #fff; display: flex; align-items: center; gap: 4px; border-radius: 999px; background: rgba(255,255,255,0.12); }
+    .user-name { font-size: 14px; margin: 0 2px; }
+    .menu-user-info { padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; }
+    .menu-user-info strong { font-size: 14px; }
+    .menu-user-info small { font-size: 12px; color: #888; }
+    .logout-item { color: #c62828 !important; }
+
+    @media (max-width: 600px) {
+    .navbar { min-height: 58px; padding: 0 10px; }
+    .brand-name { font-size: 18px; }
+    .user-name, .user-btn mat-icon:last-child { display: none; }
+    }
+    

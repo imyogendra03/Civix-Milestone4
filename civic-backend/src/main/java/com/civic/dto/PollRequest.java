@@ -1,0 +1,2 @@
+package com.civic.dto; import jakarta.validation.constraints.*; import lombok.*; import java.time.LocalDateTime; import java.util.*;
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder public class PollRequest {@NotBlank private String title;@NotBlank private String description;@NotEmpty private List<String> options;@NotBlank private String targetLocation;@NotBlank private String department;@NotNull @Future private LocalDateTime closeDate;}

@@ -1,0 +1,30 @@
+<div class="page-container">
+    <button mat-button routerLink="/officials"><mat-icon>arrow_back</mat-icon> Back to Officials</button>
+    @if (official) {
+      <div class="profile-layout">
+        <mat-card class="profile-card">
+          <div class="profile-hero">
+            <div class="big-avatar">{{ official.fullName.charAt(0) }}</div>
+            <div class="profile-info">
+              <h1>{{ official.fullName }}</h1>
+              <p class="title-badge">{{ official.title }}</p>
+              <p class="dept"><mat-icon>apartment</mat-icon>{{ official.department }}</p>
+              <p class="loc"><mat-icon>location_on</mat-icon>{{ official.location }}</p>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            @if (official.bio) { <p class="bio">{{ official.bio }}</p> }
+            <div class="stats-row">
+              <div class="stat-item"><div class="sv">{{ official.petitionsHandled }}</div><div class="sl">Petitions Handled</div></div>
+              <div class="stat-item"><div class="sv">{{ official.reportsResolved }}</div><div class="sl">Reports Resolved</div></div>
+            </div>
+            @if (official.email) { <p><mat-icon>email</mat-icon> {{ official.email }}</p> }
+            @if (official.phone) { <p><mat-icon>phone</mat-icon> {{ official.phone }}</p> }
+          </mat-card-content>
+        </mat-card>
+      </div>
+    } @else {
+      <div class="empty-state"><mat-icon>badge</mat-icon><p>Loading profile...</p></div>
+    }
+    </div>

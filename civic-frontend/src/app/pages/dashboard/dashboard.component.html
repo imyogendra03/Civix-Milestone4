@@ -1,0 +1,87 @@
+<div class="page-container">
+  <div class="welcome-card">
+    <div class="welcome-text">
+      <h1><mat-icon>campaign</mat-icon> Welcome Back, {{ firstName }}!</h1>
+      <p>Here's what's happening in your community today.</p>
+    </div>
+    <button mat-raised-button color="primary" routerLink="/petitions/create">
+      <mat-icon>add</mat-icon> New Petition
+    </button>
+  </div>
+
+  <div class="card-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue"><mat-icon>article</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.myPetitions }}</div>
+        <div class="stat-label">My Petitions</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><mat-icon>check_circle</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.signatures }}</div>
+        <div class="stat-label">Signatures</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange"><mat-icon>how_to_vote</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.votes }}</div>
+        <div class="stat-label">Votes</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple"><mat-icon>people</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.pollsCreated }}</div>
+        <div class="stat-label">Polls Created</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <h2 class="section-title">Active Petitions Near You</h2>
+    <div class="filter-row">
+      <mat-select [(ngModel)]="selectedCategory" (ngModelChange)="loadPetitions()" class="cat-select">
+        @for (cat of categories; track cat) {
+          <mat-option [value]="cat">{{ cat }}</mat-option>
+        }
+      </mat-select>
+    </div>
+  </div>
+<div class="petition-table">
+  <div class="table-header">
+    <span>Petition</span>
+    <span>Status</span>
+    <span>Polls Created</span>
+  </div>
+
+  @for (p of displayPetitions; track p.id) {
+    <div class="table-row" [routerLink]="['/petitions', p.id]">
+      <span class="petition-title">{{ p.title }}</span>
+
+      <span>
+        <span class="badge" [ngClass]="{
+          'badge-active': p.status === 'ACTIVE',
+          'badge-review': p.status === 'UNDER_REVIEW',
+          'badge-approved': p.status === 'APPROVED',
+          'badge-rejected': p.status === 'REJECTED',
+          'badge-closed': p.status === 'CLOSED'
+        }">
+          {{ p.status }}
+        </span>
+      </span>
+
+      <span class="supporters">{{ p.currentSignatures }}</span>
+    </div>
+  }
+
+  @if (displayPetitions.length === 0) {
+    <div class="empty-state">
+      <mat-icon>search_off</mat-icon>
+      <p>No petitions found.</p>
+    </div>
+  }
+</div>
+ 

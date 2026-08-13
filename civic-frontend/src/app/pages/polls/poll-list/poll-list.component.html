@@ -1,0 +1,239 @@
+<div class="page-container">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <div>
+      <h1>
+        <mat-icon>poll</mat-icon>
+        Public Polls
+      </h1>
+
+      <p>
+        Participate in community polls and view the latest results.
+      </p>
+    </div>
+
+    @if (!auth.isOfficial()) {
+    <button
+      mat-raised-button
+      color="primary"
+      routerLink="/polls/create">
+
+      <mat-icon>add</mat-icon>
+      Create Poll
+
+    </button>
+    }
+
+  </div>
+
+  <!-- Poll Count -->
+  <div class="action-bar">
+    <span>{{ filteredPolls.length }} Poll(s) Available</span>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="filter-bar">
+
+    <mat-button-toggle-group
+      [(ngModel)]="selectedFilter"
+      (change)="onFilterChange()"
+      class="poll-filters">
+
+      <mat-button-toggle value="ALL">
+        All Polls
+      </mat-button-toggle>
+
+      <mat-button-toggle value="ACTIVE">
+        Active Polls
+      </mat-button-toggle>
+
+      <mat-button-toggle value="MINE">
+        My Polls
+      </mat-button-toggle>
+
+      <mat-button-toggle value="CLOSED">
+        Closed Polls
+      </mat-button-toggle>
+
+    </mat-button-toggle-group>
+
+    <mat-form-field appearance="outline" class="location-filter">
+
+      <mat-label>Search Location</mat-label>
+
+      <mat-icon matPrefix>
+        search
+      </mat-icon>
+
+      <input
+        matInput
+        type="text"
+        placeholder="Search by location..."
+        [(ngModel)]="locationSearch"
+        (input)="onLocationSearch()">
+
+    </mat-form-field>
+
+  </div>
+
+  <!-- Loading -->
+  @if (loading) {
+
+    <div class="loading">
+
+      <mat-spinner diameter="50"></mat-spinner>
+
+    </div>
+
+  }
+
+  @else {
+
+    <!-- Empty -->
+    @if (filteredPolls.length === 0) {
+
+      <div class="empty-state">
+
+        <mat-icon>poll</mat-icon>
+
+        <h2>No Polls Found</h2>
+
+        <p>
+          No polls match your selected filters.
+        </p>
+
+      </div>
+
+    }
+
+    @else {
+
+      <div class="poll-grid">
+
+        @for (poll of filteredPolls; track poll.id) {
+
+          <mat-card class="poll-card">
+
+            <mat-card-header>
+
+              <mat-card-title>
+
+                {{ poll.title }}
+
+              </mat-card-title>
+
+              <mat-card-subtitle>
+
+                {{ poll.description }}
+
+              </mat-card-subtitle>
+
+            </mat-card-header>
+
+            <mat-card-content>
+
+              <div class="poll-meta">
+
+                <span
+                  [class.status-active]="poll.status === 'ACTIVE'"
+                  [class.status-closed]="poll.status !== 'ACTIVE'">
+
+                  <mat-icon>info</mat-icon>
+
+                  {{ poll.status }}
+
+                </span>
+
+                <span>
+
+                  <mat-icon>people</mat-icon>
+
+                  {{ poll.totalVotes }} Votes
+
+                </span>
+
+                <span>
+
+                  <mat-icon>location_on</mat-icon>
+
+                  {{ poll.targetLocation }}
+
+                </span>
+
+                <span>
+
+                  <mat-icon>event</mat-icon>
+
+                  {{ poll.closeDate | date:'mediumDate' }}
+
+                </span>
+
+              </div>
+
+            </mat-card-content>
+
+            <mat-card-actions>
+
+  @if (poll.status === 'ACTIVE' && poll.createdByCurrentUser) {
+    <button mat-stroked-button color="primary" [routerLink]="['/polls', poll.id, 'vote']">
+      <mat-icon>edit</mat-icon> Edit Poll
+    </button>
+  } @else if (poll.status === 'ACTIVE' && poll.votedByCurrentUser) {
+    <button mat-stroked-button disabled>
+      <mat-icon>check_circle</mat-icon> Already Voted
+    </button>
+  } @else if (poll.status === 'ACTIVE') {
+    <button mat-raised-button color="primary" [routerLink]="['/polls', poll.id, 'vote']">
+      <mat-icon>how_to_vote</mat-icon> Vote Now
+    </button>
+  }
+
+
+  <button
+    mat-stroked-button
+    color="accent"
+    [routerLink]="['/polls', poll.id, 'results']">
+
+    <mat-icon>
+      bar_chart
+    </mat-icon>
+
+    View Results
+
+  </button>
+
+
+
+  @if (selectedFilter === 'MINE') {
+
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="deletePoll(poll.id)">
+
+      <mat-icon>
+        delete
+      </mat-icon>
+
+      Delete
+
+    </button>
+
+  }
+
+
+</mat-card-actions>
+
+          </mat-card>
+
+        }
+
+      </div>
+
+    }
+
+  }
+
+</div>

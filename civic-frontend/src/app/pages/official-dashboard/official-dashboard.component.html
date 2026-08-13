@@ -1,0 +1,78 @@
+<div class="page-container">
+  <div class="official-header">
+    <div>
+      <h1>Official Dashboard</h1>
+      <p>Review petitions from {{ user?.department || 'your department' }}</p>
+    </div>
+    <button mat-raised-button color="primary" routerLink="/petitions">
+      <mat-icon>article</mat-icon> View all petitions
+    </button>
+  </div>
+
+  <div class="card-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue"><mat-icon>article</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.totalPetitions }}</div>
+        <div class="stat-label">Total Petitions</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange"><mat-icon>pending_actions</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.pendingReview }}</div>
+        <div class="stat-label">Pending Review</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><mat-icon>task_alt</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.approved }}</div>
+        <div class="stat-label">Approved</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon red"><mat-icon>cancel</mat-icon></div>
+      <div>
+        <div class="stat-value">{{ stats.rejected }}</div>
+        <div class="stat-label">Rejected</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-grid" style="margin-top:16px">
+    <div class="stat-card"><div class="stat-icon blue"><mat-icon>poll</mat-icon></div><div><div class="stat-value">{{ stats.polls }}</div><div class="stat-label">Department Polls</div></div></div>
+    <div class="stat-card"><div class="stat-icon green"><mat-icon>draw</mat-icon></div><div><div class="stat-value">{{ stats.signatures }}</div><div class="stat-label">Signatures</div></div></div>
+    <div class="stat-card"><div class="stat-icon orange"><mat-icon>how_to_vote</mat-icon></div><div><div class="stat-value">{{ stats.votes }}</div><div class="stat-label">Votes</div></div></div>
+  </div>
+
+  <div class="section-title">Petitions awaiting review</div>
+
+  <div class="petition-table">
+    <div class="table-header">
+      <span>Petition</span>
+      <span>Area</span>
+      <span>Status</span>
+      <span>Action</span>
+    </div>
+    @if (loading) {
+      <div class="empty-state">Loading petitions…</div>
+    } @else if (pendingPetitions.length === 0) {
+      <div class="empty-state">No petitions are awaiting review.</div>
+    } @else {
+    @for (p of pendingPetitions; track p.id) {
+      <div class="table-row">
+        <span class="petition-title">{{ p.title }}</span>
+        <span class="area">{{ p.location }}</span>
+        <span>
+          <span class="badge badge-pending">{{ p.status === 'UNDER_REVIEW' ? 'Under review' : 'Pending' }}</span>
+        </span>
+        <span class="action-btns">
+          <button mat-raised-button color="primary" class="btn-approve" [disabled]="updatingId === p.id" (click)="updateStatus(p, 'APPROVED')">Approve</button>
+          <button mat-raised-button color="warn" class="btn-reject" [disabled]="updatingId === p.id" (click)="updateStatus(p, 'REJECTED')">Reject</button>
+        </span>
+      </div>
+    }
+    }
+  </div>
+</div>

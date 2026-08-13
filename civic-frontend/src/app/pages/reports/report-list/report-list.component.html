@@ -1,0 +1,28 @@
+<div class="page-container">
+    <div class="page-welcome">
+      <div>
+        <h1><mat-icon>assessment</mat-icon> Reports & Analytics</h1>
+        <p>Track civic engagement across petitions and public polls.</p>
+      </div>
+      <mat-form-field appearance="outline"><mat-label>Month</mat-label><input matInput type="number" min="1" max="12" [(ngModel)]="month" (change)="load()"></mat-form-field><button mat-raised-button color="primary" [disabled]="loading" (click)="exportPdf()"><mat-icon>picture_as_pdf</mat-icon> PDF</button><button mat-stroked-button color="primary" [disabled]="loading" (click)="exportExcel()"><mat-icon>table_view</mat-icon> Excel</button>
+    </div>
+    @if (loading) {
+      <div class="empty-state"><mat-icon>hourglass_top</mat-icon><p>Generating report…</p></div>
+    } @else {
+    <div class="metrics-grid">
+      <mat-card><mat-icon>article</mat-icon><strong>{{ petitionTotal }}</strong><span>Total petitions</span></mat-card>
+      <mat-card><mat-icon>campaign</mat-icon><strong>{{ activePetitions }}</strong><span>Active petitions</span></mat-card>
+      <mat-card><mat-icon>task_alt</mat-icon><strong>{{ resolvedPetitions }}</strong><span>Resolved petitions</span></mat-card>
+      <mat-card><mat-icon>how_to_vote</mat-icon><strong>{{ totalVotes }}</strong><span>Votes cast</span></mat-card>
+    </div>
+    <div class="report-grid">
+      <mat-card><h2>Poll participation</h2><strong>{{ pollTotal }}</strong><p>Total polls · {{ activePolls }} active</p></mat-card>
+      <mat-card><h2>Petition support</h2><strong>{{ engagementRate }}</strong><p>Average signatures per petition</p></mat-card>
+    </div>
+    <mat-card class="breakdown"><h2>Petition status breakdown</h2>
+      @for (status of ['ACTIVE', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'CLOSED']; track status) {
+        <div class="breakdown-row"><span>{{ statusLabel(status) }}</span><strong>{{ petitionCount(status) }}</strong></div>
+      }
+    </mat-card>
+    }
+    </div>

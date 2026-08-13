@@ -1,0 +1,13 @@
+.profile-layout { margin-top: 16px; max-width: 700px; }
+    .profile-card { border-radius: 16px !important; }
+    .profile-hero { padding: 28px; display: flex; gap: 24px; align-items: center; background: linear-gradient(135deg, #1565c0, #1976d2); color: #fff; border-radius: 16px 16px 0 0; }
+    .big-avatar { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; flex-shrink: 0; }
+    .profile-info h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+    .title-badge { font-size: 14px; opacity: 0.9; }
+    .dept, .loc { font-size: 13px; opacity: 0.85; display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+    .dept mat-icon, .loc mat-icon { font-size: 15px; width: 15px; height: 15px; }
+    .bio { font-size: 14px; line-height: 1.7; color: #555; margin: 16px 0; }
+    .stats-row { display: flex; gap: 32px; margin: 20px 0; }
+    .sv { font-size: 28px; font-weight: 700; color: #1565c0; }
+    .sl { font-size: 12px; color: #888; }
+    

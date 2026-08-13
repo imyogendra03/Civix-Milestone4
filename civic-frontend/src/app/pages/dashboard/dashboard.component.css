@@ -1,0 +1,211 @@
+.page-container {
+  max-width: 1160px;
+}
+
+.welcome-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: linear-gradient(135deg, #0f3d67 0%, #1565c0 54%, #14b8a6 100%);
+  color: #fff;
+  border-radius: 8px;
+  padding: clamp(22px, 4vw, 34px);
+  margin-bottom: 28px;
+  box-shadow: 0 22px 52px rgba(15, 61, 103, 0.24);
+  overflow: hidden;
+  position: relative;
+}
+
+.welcome-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -60px -120px auto;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.welcome-text,
+.welcome-card button {
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-card h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+.welcome-card h1 mat-icon {
+  width: 34px;
+  height: 34px;
+  font-size: 34px;
+}
+
+.welcome-card p {
+  margin: 0;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.card-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 28px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  margin: 0;
+}
+
+.filter-row {
+  flex-shrink: 0;
+}
+
+.cat-select {
+  min-width: 190px;
+  padding: 10px 12px;
+  border: 1px solid #d9e3ef;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.petition-table {
+  background: #fff;
+  border: 1px solid rgba(217, 227, 239, 0.85);
+  border-radius: 8px;
+  box-shadow: var(--civix-shadow);
+  overflow: hidden;
+}
+
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 140px 120px;
+  align-items: center;
+  gap: 16px;
+}
+
+.table-header {
+  padding: 14px 20px;
+  background: #f4f8fc;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #475467;
+  text-transform: uppercase;
+}
+
+.table-row {
+  padding: 16px 20px;
+  border-top: 1px solid #edf1f7;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.table-row:hover {
+  background: #f8fbff;
+}
+
+.petition-title {
+  font-weight: 600;
+  color: #172033;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.supporters {
+  font-weight: 700;
+  color: #0f5e9c;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge-open {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge-active {
+  background: #fff3e0;
+  color: #c2410c;
+}
+
+.badge-closed {
+  background: #fce4ec;
+  color: #b71c1c;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #98a2b3;
+}
+
+.empty-state mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+@media (max-width: 1080px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .welcome-card,
+  .section-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .welcome-card button,
+  .cat-select {
+    width: 100%;
+  }
+
+  .welcome-card h1 {
+    align-items: flex-start;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-header {
+    display: none;
+  }
+
+  .table-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .supporters::before {
+    content: "Supporters: ";
+    color: #667085;
+    font-weight: 600;
+  }
+}

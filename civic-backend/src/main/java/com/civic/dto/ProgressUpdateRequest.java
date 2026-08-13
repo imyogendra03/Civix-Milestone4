@@ -1,0 +1,2 @@
+package com.civic.dto; import jakarta.validation.constraints.*; import lombok.*; import java.time.LocalDateTime;
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder public class ProgressUpdateRequest { @Min(0) @Max(100) private Integer progressPercent; private String completedWork; private String pendingWork; private String pendingReason; private LocalDateTime expectedCompletionAt; private String description; }

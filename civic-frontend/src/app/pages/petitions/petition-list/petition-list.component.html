@@ -1,0 +1,169 @@
+<div class="page-container">
+
+  <div class="page-welcome">
+    <div>
+      <h1>
+        <mat-icon>article</mat-icon>
+        Petitions
+      </h1>
+      <p>Browse and support petitions in your community.</p>
+    </div>
+
+    @if (!auth.isOfficial()) {
+    <button mat-raised-button color="primary" routerLink="/petitions/create">
+      <mat-icon>add</mat-icon>
+      Create Petition
+    </button>
+    }
+  </div>
+
+  <div class="filter-card">
+    <div class="filter-top">
+
+      <div class="petition-tabs">
+        <button mat-button [class.active]="activeTab === 'all'" (click)="changeTab('all')">
+          All Petitions
+        </button>
+
+        <button mat-button [class.active]="activeTab === 'mine'" (click)="changeTab('mine')">
+          My Petitions
+        </button>
+
+        <button mat-button [class.active]="activeTab === 'signed'" (click)="changeTab('signed')">
+          Signed by Me
+        </button>
+      </div>
+
+      <div class="top-filters">
+
+        <mat-form-field appearance="outline" class="small-filter">
+          <mat-icon matPrefix>location_on</mat-icon>
+
+          <mat-select [(ngModel)]="selectedLocation" (selectionChange)="onFilterChange()">
+            <mat-option value="">All Locations</mat-option>
+
+            @for (location of locations; track location) {
+              <mat-option [value]="location">{{ location }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="small-filter">
+          <mat-icon matPrefix>filter_alt</mat-icon>
+
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()">
+            <mat-option value="">All Categories</mat-option>
+
+            @for (cat of categories.slice(1); track cat) {
+              <mat-option [value]="cat">{{ cat }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="small-filter">
+          <mat-icon matPrefix>list</mat-icon>
+
+          <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onFilterChange()">
+            <mat-option value="">Status: All</mat-option>
+            <mat-option value="ACTIVE">Active</mat-option>
+            <mat-option value="UNDER_REVIEW">Under Review</mat-option>
+            <mat-option value="APPROVED">Approved</mat-option>
+            <mat-option value="REJECTED">Rejected</mat-option>
+            <mat-option value="CLOSED">Closed</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- No white wrapper here: each row itself is a floating white card. -->
+  <div class="list-card">
+
+    @if (petitions.length === 0) {
+      <div class="empty-state">
+        <mat-icon>article</mat-icon>
+        <p>No petitions found.</p>
+        <small>Try a different filter or create the first petition.</small>
+      </div>
+    } @else {
+      @for (p of petitions; track p.id) {
+        <div class="petition-row">
+
+          <div class="petition-main" [routerLink]="['/petitions', p.id]">
+
+            <div class="petition-badges">
+              <span class="badge {{ p.status.toLowerCase() }}">
+                {{ p.status === 'UNDER_REVIEW' ? 'Under Review' : (p.status | titlecase) }}
+              </span>
+
+              <span class="cat-badge">{{ p.category }}</span>
+            </div>
+
+            <h3>{{ p.title }}</h3>
+
+            <p>{{ p.description | slice:0:150 }}...</p>
+
+            <div class="meta">
+              <span>
+                <mat-icon>person</mat-icon>
+                {{ p.creatorName }}
+              </span>
+
+              <span>
+                <mat-icon>location_on</mat-icon>
+                {{ p.location }}
+              </span>
+
+              <span>
+                <mat-icon>business</mat-icon>
+                {{ p.department || 'Unassigned' }}
+              </span>
+
+              <span>
+                <mat-icon>calendar_today</mat-icon>
+                {{ p.createdAt | date:'mediumDate' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Vote/support count: no aria binding, so Angular error will not occur. -->
+          <div class="petition-side">
+
+            <div class="vote-count">
+              <mat-icon>how_to_vote</mat-icon>
+
+              <div>
+                <strong>{{ p.currentSignatures }}</strong>
+                <span>{{ p.currentSignatures === 1 ? 'Signature' : 'Signatures' }}</span>
+              </div>
+            </div>
+
+            @if (activeTab === 'mine') {
+              <div class="petition-actions">
+
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  [routerLink]="['/petitions', p.id, 'edit']"
+                  (click)="$event.stopPropagation()">
+                  <mat-icon>edit</mat-icon>
+                  Edit
+                </button>
+
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="deletePetition(p.id, $event)">
+                  <mat-icon>delete</mat-icon>
+                  Delete
+                </button>
+
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

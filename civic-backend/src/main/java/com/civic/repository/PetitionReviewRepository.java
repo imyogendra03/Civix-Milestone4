@@ -1,0 +1,2 @@
+package com.civic.repository; import com.civic.entity.*; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*;
+public interface PetitionReviewRepository extends JpaRepository<PetitionReview,Long>{boolean existsByPetitionAndCitizen(Petition p,User u); List<PetitionReview> findByPetitionOrderByCreatedAtAsc(Petition p); long countByPetition(Petition p); long countByPetitionAndRatingGreaterThanEqual(Petition p,Integer rating);}

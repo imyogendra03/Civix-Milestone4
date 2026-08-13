@@ -1,0 +1,17 @@
+<div class="page-container">
+  <div class="official-header"><div><h1>Super Admin</h1><p>Manage Official verification and access.</p></div><button mat-raised-button color="primary" (click)="createDepartment()"><mat-icon>add</mat-icon> Department</button></div>
+  <div class="card-grid">
+    <div class="stat-card"><div class="stat-icon blue"><mat-icon>people</mat-icon></div><div><div class="stat-value">{{stats.citizens||0}}</div><div class="stat-label">Citizens</div></div></div>
+    <div class="stat-card"><div class="stat-icon green"><mat-icon>badge</mat-icon></div><div><div class="stat-value">{{stats.officials||0}}</div><div class="stat-label">Officials</div></div></div>
+    <div class="stat-card"><div class="stat-icon orange"><mat-icon>pending_actions</mat-icon></div><div><div class="stat-value">{{stats.pendingOfficials||0}}</div><div class="stat-label">Pending Verification</div></div></div>
+    <div class="stat-card"><div class="stat-icon purple"><mat-icon>business</mat-icon></div><div><div class="stat-value">{{stats.departments||0}}</div><div class="stat-label">Departments</div></div></div>
+  </div>
+  <div class="section-title">Pending Officials</div>
+  <div class="petition-table">
+    <div class="table-header"><span>Official</span><span>Location</span><span>Department</span><span>Action</span></div>
+    @for(u of pending; track u.id){<div class="table-row"><span><b>{{u.name}}</b><br><small>{{u.email}}</small></span><span>{{u.location}}</span><span><mat-form-field appearance="outline"><mat-select [(ngModel)]="selectedDepartment[u.id]"><mat-option value="">Select</mat-option>@for(d of departments;track d.id){<mat-option [value]="d.name">{{d.name}}</mat-option>}</mat-select></mat-form-field><mat-form-field appearance="outline"><input matInput placeholder="Designation" [(ngModel)]="designation[u.id]"></mat-form-field></span><span><button mat-raised-button color="primary" (click)="approve(u)" [disabled]="!selectedDepartment[u.id]">Approve & Access</button><button mat-stroked-button color="warn" (click)="reject(u)">Reject</button></span></div>}
+    @if(!pending.length){<div class="empty-state">No pending officials.</div>}
+  </div>
+  <div class="section-title" style="margin-top:24px">Officials</div>
+  <div class="petition-table"><div class="table-header"><span>Official</span><span>Department</span><span>Status</span><span>Action</span></div>@for(u of officials;track u.id){<div class="table-row"><span>{{u.name}}<br><small>{{u.email}}</small></span><span>{{u.department||'Not assigned'}}</span><span>{{u.verified?'Verified':'Pending'}} / {{u.active?'Active':'Inactive'}}</span><span><button mat-stroked-button (click)="toggle(u)">{{u.active?'Deactivate':'Activate'}}</button></span></div>}</div>
+</div>

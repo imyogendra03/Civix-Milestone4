@@ -1,0 +1,4 @@
+.priority-group { margin-bottom: 16px; }
+    .priority-label { font-size: 13px; color: #666; display: block; margin-bottom: 10px; }
+    .priority-options { display: flex; gap: 24px; }
+    

@@ -1,0 +1,37 @@
+<div class="page-container">
+    <div class="page-welcome">
+      <div>
+        <h1><mat-icon>badge</mat-icon> Public Officials</h1>
+        <p>Connect with elected representatives and public servants.</p>
+      </div>
+    </div>
+    <div class="action-bar">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search officials...</mat-label>
+        <input matInput [(ngModel)]="search" (ngModelChange)="load()">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="card-grid">
+      @if (officials.length === 0) {
+        <div class="empty-state" style="grid-column:1/-1"><mat-icon>badge</mat-icon><p>No officials found.</p></div>
+      } @else {
+        @for (o of officials; track o.id) {
+          <mat-card class="official-card" [routerLink]="['/officials', o.id]">
+            <mat-card-header>
+              <div class="avatar" matCardAvatar>{{ o.fullName.charAt(0) }}</div>
+              <mat-card-title>{{ o.fullName }}</mat-card-title>
+              <mat-card-subtitle>{{ o.title }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p><mat-icon>apartment</mat-icon>{{ o.department }}</p>
+              <p><mat-icon>location_on</mat-icon>{{ o.location }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-stroked-button color="primary">View Profile</button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      }
+    </div>
+    </div>

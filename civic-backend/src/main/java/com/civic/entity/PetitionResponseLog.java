@@ -1,0 +1,4 @@
+package com.civic.entity;
+import com.civic.enums.PetitionStatus; import jakarta.persistence.*; import lombok.*; import java.time.LocalDateTime;
+@Entity @Table(name="petition_response_logs") @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class PetitionResponseLog { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="petition_id",nullable=false) private Petition petition; @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="official_id",nullable=false) private User official; @Column(columnDefinition="TEXT") private String comment; @Enumerated(EnumType.STRING) private PetitionStatus status; @Column(nullable=false) private LocalDateTime createdAt; @PrePersist public void onCreate(){createdAt=LocalDateTime.now();} }

@@ -1,0 +1,11 @@
+.metrics-grid, .report-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px; }
+.report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.metrics-grid mat-card, .report-grid mat-card, .breakdown { padding: 20px; }
+.metrics-grid mat-icon { color: #1976d2; vertical-align: middle; margin-right: 8px; }
+.metrics-grid strong, .report-grid strong { display: block; font-size: 30px; margin: 12px 0 4px; color: #172554; }
+.metrics-grid span, .report-grid p { color: #667085; margin: 0; }
+.report-grid h2, .breakdown h2 { margin: 0; font-size: 17px; }
+.breakdown-row { display: flex; justify-content: space-between; border-top: 1px solid #eef2f6; padding: 12px 0; margin-top: 12px; color: #475467; }
+.empty-state { padding: 48px; text-align: center; color: #667085; }
+@media (max-width: 760px) { .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .report-grid { grid-template-columns: 1fr; } }
+    

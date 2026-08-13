@@ -1,0 +1,29 @@
+<div class="page-container">
+    <div class="page-header"><h1>File a Report</h1><p>Report issues in your community for official attention</p></div>
+    <div class="form-container">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline"><mat-label>Report Title</mat-label><input matInput formControlName="title"></mat-form-field>
+        <mat-form-field appearance="outline"><mat-label>Description</mat-label><textarea matInput formControlName="description" rows="5" placeholder="Describe the issue in detail..."></textarea></mat-form-field>
+        <div class="form-row">
+          <mat-form-field appearance="outline"><mat-label>Category</mat-label>
+            <mat-select formControlName="category">@for (c of categories; track c){<mat-option [value]="c">{{c}}</mat-option>}</mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Location</mat-label><input matInput formControlName="location" placeholder="Street, Neighborhood, City"></mat-form-field>
+        </div>
+        <div class="priority-group">
+          <label class="priority-label">Priority Level</label>
+          <mat-radio-group formControlName="priority" class="priority-options">
+            <mat-radio-button value="LOW">Low</mat-radio-button>
+            <mat-radio-button value="MEDIUM">Medium</mat-radio-button>
+            <mat-radio-button value="HIGH">High</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="form-actions">
+          <button mat-stroked-button type="button" routerLink="/reports">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading || form.invalid">
+            <mat-icon>send</mat-icon> {{ loading ? 'Filing...' : 'Submit Report' }}
+          </button>
+        </div>
+      </form>
+    </div>
+    </div>

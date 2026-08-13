@@ -1,0 +1,206 @@
+<main class="landing-page">
+  <nav class="landing-nav">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark"><mat-icon>account_balance</mat-icon></span>
+      <span>Civix</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#workflow">How it works</a>
+      <a href="#impact">Impact</a>
+    </div>
+    @if (auth.isLoggedIn()) {
+      <div class="nav-actions">
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="profileMenu" class="profile-btn">
+          <span class="profile-avatar">{{ firstName.charAt(0) }}</span>
+          {{ firstName }}
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+      <mat-menu #profileMenu="matMenu">
+        <div class="menu-user-info">
+          <strong>{{ user?.name }}</strong>
+          <small>{{ user?.email }}</small>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-menu-item routerLink="/settings"><mat-icon>person</mat-icon><span>My Profile</span></button>
+        <button mat-menu-item [routerLink]="dashboardRoute"><mat-icon>dashboard</mat-icon><span>Dashboard</span></button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="auth.logout()"><mat-icon>logout</mat-icon><span>Logout</span></button>
+      </mat-menu>
+    } @else {
+      <div class="nav-actions">
+        <a mat-button routerLink="/auth/login">Login</a>
+        <a mat-raised-button color="primary" routerLink="/auth/register">Register</a>
+      </div>
+    }
+  </nav>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow"><mat-icon>verified</mat-icon> Civic action, organized</span>
+      <h1>Turn community voices into visible public action.</h1>
+      <p>Civix helps citizens create petitions, vote in polls, report local issues, and follow official responses in one transparent civic workspace.</p>
+      <div class="hero-actions">
+        <a mat-raised-button color="primary" [routerLink]="auth.isLoggedIn() ? dashboardRoute : '/auth/register'">
+          <mat-icon>rocket_launch</mat-icon>
+          Start Now
+        </a>
+        <a mat-stroked-button [routerLink]="auth.isLoggedIn() ? dashboardRoute : '/auth/login'">Open Dashboard</a>
+      </div>
+      <div class="trust-row">
+        <span><b>12k+</b> voices supported</span>
+        <span><b>480+</b> issues tracked</span>
+        <span><b>92%</b> faster updates</span>
+      </div>
+    </div>
+
+    <div class="visual-stage civic-stage" aria-label="Civic voice visual">
+      <div class="halo halo-one"></div>
+      <div class="halo halo-two"></div>
+      <div class="voice-orbit">
+        <div class="voice-core">
+          <mat-icon>campaign</mat-icon>
+          <strong>Civic Voice</strong>
+          <span>Speak. Support. Resolve.</span>
+        </div>
+        <div class="voice-node node-one"><mat-icon>article</mat-icon><span>Petitions</span></div>
+        <div class="voice-node node-two"><mat-icon>poll</mat-icon><span>Polls</span></div>
+        <div class="voice-node node-three"><mat-icon>report_problem</mat-icon><span>Reports</span></div>
+        <div class="voice-node node-four"><mat-icon>task_alt</mat-icon><span>Responses</span></div>
+      </div>
+      <div class="floating-card card-one"><mat-icon>groups</mat-icon><span>Community voices united</span></div>
+      <div class="floating-card card-two"><mat-icon>verified</mat-icon><span>Transparent public action</span></div>
+    </div>
+  </section>
+
+  <section class="stats-strip" aria-label="Civix highlights">
+    <div><strong>4</strong><span>Core civic tools</span></div>
+    <div><strong>24/7</strong><span>Issue visibility</span></div>
+    <div><strong>1</strong><span>Unified dashboard</span></div>
+    <div><strong>100%</strong><span>Responsive design</span></div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-heading">
+      <span>Features</span>
+      <h2>Everything your community needs to participate.</h2>
+    </div>
+    <div class="feature-grid">
+      <a class="feature-card" routerLink="/petitions">
+        <mat-icon>article</mat-icon>
+        <h3>Petitions</h3>
+        <p>Create, browse, support, and track local petitions with progress goals.</p>
+      </a>
+      <a class="feature-card" routerLink="/polls">
+        <mat-icon>poll</mat-icon>
+        <h3>Public Polls</h3>
+        <p>Run structured polls and let citizens vote on practical decisions.</p>
+      </a>
+      <a class="feature-card" routerLink="/reports">
+        <mat-icon>report_problem</mat-icon>
+        <h3>Reports</h3>
+        <p>File public reports with status, priority, category, and location.</p>
+      </a>
+      <a class="feature-card" routerLink="/officials">
+        <mat-icon>badge</mat-icon>
+        <h3>Officials</h3>
+        <p>Connect citizens with representatives and public servants.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="workflow section" id="workflow">
+    <div class="section-heading">
+      <span>How it works</span>
+      <h2>From concern to accountable action.</h2>
+    </div>
+    <div class="workflow-grid">
+      <div><b>01</b><h3>Create</h3><p>Start a petition, poll, or report in minutes.</p></div>
+      <div><b>02</b><h3>Mobilize</h3><p>Collect support and keep citizens updated.</p></div>
+      <div><b>03</b><h3>Track</h3><p>Follow status changes and official responses.</p></div>
+    </div>
+  </section>
+
+  <section class="impact" id="impact">
+    <div>
+      <span class="eyebrow dark"><mat-icon>insights</mat-icon> Designed for clarity</span>
+      <h2>A civic platform that feels modern, fast, and trustworthy.</h2>
+      <p>The interface is built for repeated use: clean navigation, visible actions, readable cards, and responsive screens from mobile to desktop.</p>
+    </div>
+    <div class="impact-panel">
+      <div><mat-icon>speed</mat-icon><strong>Fast scanning</strong><span>Compact cards and clear hierarchy</span></div>
+      <div><mat-icon>devices</mat-icon><strong>Mobile ready</strong><span>Responsive layouts across pages</span></div>
+      <div><mat-icon>security</mat-icon><strong>Trust focused</strong><span>Stable civic tone and accessible actions</span></div>
+    </div>
+  </section>
+
+  <section class="support-section" id="support">
+    <div class="support-copy">
+      <span>Support</span>
+      <h2>Need help or want to send a message?</h2>
+      <p>Reach the Civix support team for account help, reporting issues, demo access, or civic partnership questions.</p>
+      <div class="contact-list">
+        <div><mat-icon>mail</mat-icon><span>support&#64;civix.example</span></div>
+        <div><mat-icon>call</mat-icon><span>+91 98765 43210</span></div>
+        <div><mat-icon>location_on</mat-icon><span>Civic Center, Basti, Uttar Pradesh</span></div>
+      </div>
+    </div>
+    <form class="message-card">
+      <label>
+        Name
+        <input type="text" placeholder="Your name">
+      </label>
+      <label>
+        Email
+        <input type="email" placeholder="you@example.com">
+      </label>
+      <label>
+        Message
+        <textarea rows="4" placeholder="How can we help?"></textarea>
+      </label>
+      <button mat-raised-button color="primary" type="button">
+        <mat-icon>send</mat-icon>
+        Send Message
+      </button>
+    </form>
+  </section>
+
+  <section class="cta">
+    <h2>Ready to make your voice count?</h2>
+    <p>Join Civix and start participating in local governance today.</p>
+    <a mat-raised-button color="primary" [routerLink]="auth.isLoggedIn() ? dashboardRoute : '/auth/register'">
+      {{ auth.isLoggedIn() ? 'Open Dashboard' : 'Create Account' }}
+    </a>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-about">
+      <a class="brand footer-brand" routerLink="/">
+        <span class="brand-mark"><mat-icon>account_balance</mat-icon></span>
+        <span>Civix</span>
+      </a>
+      <p>Digital civic engagement for petitions, polls, reports, and public accountability.</p>
+    </div>
+    <div class="footer-col">
+      <h3>Platform</h3>
+      <a href="#features">Features</a>
+      <a href="#workflow">How it works</a>
+      <a routerLink="/petitions">Petitions</a>
+      <a routerLink="/polls">Polls</a>
+    </div>
+    <div class="footer-col">
+      <h3>Account</h3>
+      <a routerLink="/auth/login">Login</a>
+      <a routerLink="/auth/register">Register</a>
+      <a routerLink="/settings">My Profile</a>
+      <a [routerLink]="dashboardRoute">Dashboard</a>
+    </div>
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <span>support&#64;civix.example</span>
+      <span>+91 98765 43210</span>
+      <span>Mon-Fri, 9:00 AM - 6:00 PM</span>
+    </div>
+  </footer>
+</main>

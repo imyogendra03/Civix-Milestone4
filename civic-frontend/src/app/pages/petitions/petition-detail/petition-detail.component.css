@@ -1,0 +1,635 @@
+/* =====================================================
+   PETITION DETAIL PAGE
+   Modern Professional UI
+===================================================== */
+
+.page-container{
+    max-width:1400px;
+    margin:auto;
+    padding:28px;
+    background:#f8fafc;
+    min-height:100vh;
+}
+
+/* =======================
+   Back Button
+======================= */
+
+.back-bar{
+    margin-bottom:24px;
+}
+
+.back-bar button{
+    color:#2563eb;
+    font-weight:600;
+    border-radius:12px;
+}
+
+/* =======================
+   Layout
+======================= */
+
+.detail-layout{
+    display:grid;
+    grid-template-columns:2fr 420px;
+    gap:28px;
+    align-items:start;
+}
+
+/* =======================
+   Cards
+======================= */
+
+.detail-card,
+.sign-card{
+
+    border-radius:22px !important;
+
+    background:#fff !important;
+
+    border:none !important;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 15px 35px rgba(15,23,42,.08) !important;
+
+    transition:.3s;
+
+}
+
+.detail-card:hover,
+.sign-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 25px 50px rgba(15,23,42,.12) !important;
+
+}
+
+.detail-card mat-card-content,
+.sign-card mat-card-content{
+
+    padding:30px !important;
+
+}
+
+/* =======================
+   Header
+======================= */
+
+.header-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    margin-bottom:25px;
+
+}
+
+.header-left{
+
+    flex:1;
+
+}
+
+.badge-row{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+    flex-wrap:wrap;
+
+}
+
+.badge{
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.badge.under_review{
+
+    background:#fff8e1;
+
+    color:#ef6c00;
+
+}
+
+.badge.approved{
+
+    background:#e8f5e9;
+
+    color:#2e7d32;
+
+}
+
+.badge.rejected{
+
+    background:#ffebee;
+
+    color:#c62828;
+
+}
+
+.badge.closed{
+
+    background:#eceff1;
+
+    color:#455a64;
+
+}
+
+.cat-badge{
+
+    background:#eef2ff;
+
+    color:#3f51b5;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.detail-title{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    line-height:1.3;
+
+    color:#1e293b;
+
+    margin:0;
+
+}
+
+/* =======================
+   Meta Cards
+======================= */
+
+.meta-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:16px;
+
+    margin:28px 0;
+
+}
+
+.meta-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:18px;
+
+    border-radius:16px;
+
+    background:#f8fafc;
+
+    border:1px solid #e2e8f0;
+
+}
+
+.meta-box mat-icon{
+
+    font-size:28px;
+
+    width:28px;
+
+    height:28px;
+
+    color:#2563eb;
+
+}
+
+.meta-box small{
+
+    display:block;
+
+    color:#64748b;
+
+    margin-bottom:3px;
+
+}
+
+.meta-box strong{
+
+    color:#0f172a;
+
+    font-size:15px;
+
+}
+
+/* =======================
+   Description
+======================= */
+
+.content-card{
+
+    margin-top:28px;
+
+    background:#fafcff;
+
+    padding:24px;
+
+    border-radius:18px;
+
+    border:1px solid #e5e7eb;
+
+}
+
+.content-card h2{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:0 0 18px;
+
+    color:#1e293b;
+
+    font-size:22px;
+
+}
+
+.content-card mat-icon{
+
+    color:#2563eb;
+
+}
+
+.content-card p{
+
+    font-size:17px;
+
+    line-height:1.9;
+
+    color:#475569;
+
+    margin:0;
+
+}
+
+/* =======================
+   Progress Card
+======================= */
+
+.progress-title{
+
+    text-align:center;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+    margin-bottom:24px;
+
+}
+
+.progress-circle{
+
+    text-align:center;
+
+    margin-bottom:22px;
+
+}
+
+.sig-big{
+
+    font-size:56px;
+
+    font-weight:700;
+
+    color:#2563eb;
+
+    line-height:1;
+
+}
+
+.progress-circle span{
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+.goal-text{
+
+    text-align:center;
+
+    margin-bottom:18px;
+
+    color:#475569;
+
+    font-size:16px;
+
+}
+
+.progress{
+
+    height:10px !important;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+.progress-pct{
+
+    margin-top:12px;
+
+    margin-bottom:26px;
+
+    text-align:center;
+
+    font-weight:600;
+
+    color:#2563eb;
+
+}
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.sign-btn,
+.edit-btn,
+.status-btn{
+    width:100%;
+    height:54px;
+    border-radius:14px !important;
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:14px;
+    transition:.3s;
+}
+
+.sign-btn.mat-mdc-raised-button{
+    background:linear-gradient(135deg,#2563eb,#3b82f6) !important;
+    color:#fff !important;
+}
+
+.sign-btn:hover:not([disabled]){
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(37,99,235,.25);
+}
+
+.edit-btn{
+    background:#fff !important;
+    border:2px solid #2563eb !important;
+    color:#2563eb !important;
+}
+
+.edit-btn:hover{
+    background:#eff6ff !important;
+}
+
+.signed-note{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    padding:13px 14px;
+    border-radius:12px;
+    background:#ecfdf5;
+    color:#047857;
+    font-size:14px;
+    font-weight:600;
+}
+
+.signed-note mat-icon{
+    color:#10b981;
+}
+
+.status-btn.mat-mdc-raised-button{
+    background:linear-gradient(135deg,#16a34a,#22c55e) !important;
+    color:#fff !important;
+}
+
+.status-btn:hover:not([disabled]){
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(22,163,74,.25);
+}
+
+/* =====================================================
+   OFFICIAL PANEL
+===================================================== */
+
+.official-card{
+    margin-top:18px;
+    padding:22px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#f8fbff,#eef6ff);
+    border:1px solid #dbeafe;
+}
+
+.official-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.official-header h3{
+    margin:0;
+    font-size:20px;
+    font-weight:700;
+    color:#1e3a8a;
+}
+
+.official-header mat-icon{
+    color:#2563eb;
+}
+
+.official-card p{
+    color:#64748b;
+    line-height:1.7;
+    margin-bottom:18px;
+}
+
+.status-field{
+    width:100%;
+    margin-bottom:16px;
+}
+
+.status-field .mat-mdc-text-field-wrapper{
+    border-radius:14px !important;
+}
+
+.status-note{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-top:18px;
+    padding:14px;
+    border-radius:12px;
+    background:#eff6ff;
+    color:#1e40af;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.status-note mat-icon{
+    margin-top:2px;
+    color:#2563eb;
+}
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.empty-state{
+    min-height:60vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#64748b;
+}
+
+.empty-state mat-icon{
+    font-size:72px;
+    width:72px;
+    height:72px;
+    color:#2563eb;
+    margin-bottom:18px;
+}
+
+.empty-state h2{
+    margin:0 0 8px;
+    color:#1e293b;
+}
+
+.empty-state p{
+    margin:0;
+    font-size:15px;
+}
+
+/* =====================================================
+   MATERIAL TWEAKS
+===================================================== */
+
+mat-divider{
+    margin:26px 0 !important;
+}
+
+.mat-mdc-progress-bar{
+    border-radius:999px;
+}
+
+.mat-mdc-form-field{
+    width:100%;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width:1100px){
+
+.detail-layout{
+    grid-template-columns:1fr;
+}
+
+.sign-card{
+    position:static;
+}
+
+}
+
+@media (max-width:768px){
+
+.page-container{
+    padding:16px;
+}
+
+.detail-card mat-card-content,
+.sign-card mat-card-content{
+    padding:20px !important;
+}
+
+.detail-title{
+    font-size:28px;
+}
+
+.meta-grid{
+    grid-template-columns:1fr;
+}
+
+.progress-title{
+    font-size:24px;
+}
+
+.sig-big{
+    font-size:46px;
+}
+
+.badge-row{
+    gap:8px;
+}
+
+.sign-btn,
+.edit-btn,
+.status-btn{
+    height:50px;
+    font-size:15px;
+}
+
+}
+
+@media (max-width:480px){
+
+.detail-title{
+    font-size:22px;
+}
+
+.content-card{
+    padding:18px;
+}
+
+.content-card h2{
+    font-size:18px;
+}
+
+.official-card{
+    padding:18px;
+}
+
+.status-note{
+    flex-direction:column;
+}
+
+}

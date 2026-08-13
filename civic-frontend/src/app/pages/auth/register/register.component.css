@@ -1,0 +1,5 @@
+@import url('../login/login.component.css');
+    .user-type-group { margin-bottom: 16px; }
+    .type-label { font-size: 13px; color: #666; display: block; margin-bottom: 8px; }
+    .radio-group { display: flex; gap: 24px; }
+    

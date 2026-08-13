@@ -1,0 +1,53 @@
+<div class="page-container">
+    <div class="page-header"><h1>Settings</h1><p>Manage your account preferences</p></div>
+    <mat-tab-group>
+      <mat-tab label="Profile">
+        <div class="tab-content">
+          <div class="form-container">
+            <h3>Personal Information</h3>
+            <mat-divider style="margin-bottom:20px"></mat-divider>
+            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+              <mat-form-field appearance="outline"><mat-label>Full Name</mat-label><input matInput formControlName="name" placeholder="Full Name" aria-label="Full Name" title="Full Name"></mat-form-field>
+              <mat-form-field appearance="outline"><mat-label>Email</mat-label><input matInput type="email" formControlName="email" placeholder="Email" aria-label="Email" title="Email"></mat-form-field>
+              <mat-form-field appearance="outline"><mat-label>Location</mat-label><input matInput formControlName="location" placeholder="Location" aria-label="Location" title="Location"></mat-form-field>
+              <div class="form-actions">
+                <button mat-raised-button color="primary" type="submit">Save Profile</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Security">
+        <div class="tab-content">
+          <div class="form-container">
+            <h3>Change Password</h3>
+            <mat-divider style="margin-bottom:20px"></mat-divider>
+            <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+              <mat-form-field appearance="outline"><mat-label>Current Password</mat-label><input matInput type="password" formControlName="currentPassword" placeholder="Current Password" aria-label="Current Password" title="Current Password"></mat-form-field>
+              <mat-form-field appearance="outline"><mat-label>New Password</mat-label><input matInput type="password" formControlName="newPassword" placeholder="New Password"></mat-form-field>
+              <mat-form-field appearance="outline"><mat-label>Confirm New Password</mat-label><input matInput type="password" formControlName="confirmPassword" placeholder="Confirm New Password" aria-label="Confirm New Password" title="Confirm New Password"></mat-form-field>
+              <div class="form-actions">
+                <button mat-raised-button color="primary" type="submit">Update Password</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Account">
+        <div class="tab-content">
+          <div class="form-container">
+            <h3>Account Information</h3>
+            <mat-divider style="margin-bottom:20px"></mat-divider>
+            <div class="account-info">
+              <div class="info-row"><span>Name</span><strong>{{ user?.name }}</strong></div>
+              <div class="info-row"><span>Email</span><strong>{{ user?.email }}</strong></div>
+              <div class="info-row"><span>Account Type</span><strong>{{ user?.role === 'OFFICIAL' ? 'Official' : 'Citizen' }}name</strong></div>
+              <div class="info-row"><span>Location</span><strong>{{ user?.location }}</strong></div>
+            </div>
+            <mat-divider style="margin:20px 0"></mat-divider>
+            <button mat-stroked-button color="warn" (click)="auth.logout()"><mat-icon>logout</mat-icon> Sign Out</button>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    </div>

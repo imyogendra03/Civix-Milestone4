@@ -1,0 +1,20 @@
+<div class="page-container">
+    <div class="page-header"><h1>Edit Petition</h1></div>
+    <div class="form-container">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline"><mat-label>Title</mat-label><input matInput formControlName="title"></mat-form-field>
+        <mat-form-field appearance="outline"><mat-label>Description</mat-label><textarea matInput formControlName="description" rows="5"></textarea></mat-form-field>
+        <div class="form-row">
+          <mat-form-field appearance="outline"><mat-label>Category</mat-label>
+            <mat-select formControlName="category">@for (c of categories; track c){<mat-option [value]="c">{{c}}</mat-option>}</mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Location</mat-label><input matInput formControlName="location" placeholder="City, State"></mat-form-field>
+        </div>
+        <mat-form-field appearance="outline"><mat-label>Signature Goal</mat-label><input matInput type="number" formControlName="goal"></mat-form-field>
+        <div class="form-actions">
+          <button mat-stroked-button type="button" [routerLink]="['/petitions', petitionId]">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loading || form.invalid">{{ loading ? 'Saving...' : 'Save Changes' }}</button>
+        </div>
+      </form>
+    </div>
+    </div>

@@ -1,0 +1,5 @@
+.tab-content { padding: 24px 0; }
+    .account-info { display: flex; flex-direction: column; gap: 12px; }
+    .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+    .info-row span { color: #888; }
+    

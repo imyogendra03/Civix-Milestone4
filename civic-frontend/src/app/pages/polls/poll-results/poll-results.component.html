@@ -1,0 +1,196 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <button mat-stroked-button class="back-btn" routerLink="/polls">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Polls
+    </button>
+
+    <div class="title-section">
+      <h1>Poll Results & Analytics</h1>
+      <p>Live voting results update automatically every 10 seconds.</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <mat-card class="stat-card">
+      <div class="icon blue"><mat-icon>poll</mat-icon></div>
+      <div class="content">
+        <h2>{{ stats?.totalPolls ?? 0 }}</h2>
+        <span>Total Polls</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="icon green"><mat-icon>how_to_vote</mat-icon></div>
+      <div class="content">
+        <h2>{{ stats?.totalVotes ?? 0 }}</h2>
+        <span>Total Votes</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="icon orange"><mat-icon>pending_actions</mat-icon></div>
+      <div class="content">
+        <h2>{{ stats?.activePolls ?? 0 }}</h2>
+        <span>Active Polls</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="icon purple"><mat-icon>task_alt</mat-icon></div>
+      <div class="content">
+        <h2>{{ stats?.closedPolls ?? 0 }}</h2>
+        <span>Closed Polls</span>
+      </div>
+    </mat-card>
+  </div>
+
+  @if (polls.length) {
+    <mat-card class="selector-card">
+      <mat-card-content>
+        <h3>Select Poll</h3>
+        <p>Choose any active or closed poll to see its live results.</p>
+
+        <mat-form-field appearance="outline" class="poll-selector">
+          <mat-label>Select Poll</mat-label>
+
+          <mat-select
+            [(ngModel)]="selectedPollId"
+            (selectionChange)="onPollSelect($event.value)">
+
+            @for (poll of polls; track poll.id) {
+              <mat-option [value]="poll.id">
+                {{ poll.title }} ({{ poll.status }})
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (isLoading) {
+    <div class="loading-state">
+      <mat-spinner diameter="48"></mat-spinner>
+      <h3>Loading results...</h3>
+    </div>
+  }
+
+  @if (errorMsg && !isLoading) {
+    <div class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ errorMsg }}</span>
+      <button mat-raised-button color="primary" (click)="loadPollsList()">Retry</button>
+    </div>
+  }
+
+  @if (!isLoading && !errorMsg && polls.length === 0) {
+    <div class="empty-state">
+      <mat-icon>poll</mat-icon>
+      <h2>No Polls Available</h2>
+      <p>Create a poll to start collecting votes.</p>
+      <button mat-raised-button color="primary" routerLink="/polls/create">Create Poll</button>
+    </div>
+  }
+
+  @if (!isLoading && pollResult) {
+    <div class="dashboard-content">
+
+      <!-- Reference-style poll summary card. -->
+      <mat-card class="results-card">
+        <div class="results-header">
+          <div class="result-info">
+            <div class="poll-icon"><mat-icon>bar_chart</mat-icon></div>
+
+            <div>
+              <h2>{{ pollResult.title }}</h2>
+              <p>Live community voting results</p>
+
+              <span
+                class="status-badge"
+                [ngClass]="pollResult.status.toLowerCase()">
+                {{ pollResult.status }}
+              </span>
+            </div>
+          </div>
+
+          <div class="vote-count">
+            <mat-icon>groups</mat-icon>
+            <div>
+              <strong>{{ pollResult.totalVotes }}</strong>
+              <span>Total Votes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-body">
+          <div class="results-title-row">
+            <h3>Poll Results</h3>
+            <span class="total-votes-pill">
+              Total {{ pollResult.totalVotes }} votes
+            </span>
+          </div>
+
+          @for (item of pollResult.results; track item.option) {
+            <div class="option-result-card">
+              <mat-icon class="option-icon">radio_button_checked</mat-icon>
+
+              <div class="option-progress">
+                <strong>{{ item.option }}</strong>
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="item.percentage">
+                </mat-progress-bar>
+              </div>
+
+              <div class="option-numbers">
+                <strong>{{ item.percentage }}%</strong>
+                <span>{{ item.votes }} {{ item.votes === 1 ? 'vote' : 'votes' }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </mat-card>
+
+      <!-- Charts appear for all polls: active and closed. -->
+      <div class="charts-container">
+        <mat-card class="chart-card">
+          <div class="chart-header">
+            <mat-icon>bar_chart</mat-icon>
+            <h3>Votes by Option</h3>
+          </div>
+
+          <div class="chart-content">
+            <canvas #barCanvas></canvas>
+          </div>
+        </mat-card>
+
+        <mat-card class="chart-card">
+          <div class="chart-header">
+            <mat-icon>pie_chart</mat-icon>
+            <h3>Votes Distribution</h3>
+          </div>
+
+          <div class="chart-content">
+            <canvas #pieCanvas></canvas>
+          </div>
+        </mat-card>
+      </div>
+
+      <mat-card class="poll-info-card">
+        <div>
+          <mat-icon>info</mat-icon>
+          <span>Results refresh automatically while this page is open.</span>
+        </div>
+
+        <div class="poll-info-grid">
+          <span>Poll ID <strong>{{ pollResult.pollId }}</strong></span>
+          <span>Status <strong>{{ pollResult.status }}</strong></span>
+          <span>Options <strong>{{ pollResult.results.length }}</strong></span>
+          <span>Total Votes <strong>{{ pollResult.totalVotes }}</strong></span>
+        </div>
+      </mat-card>
+    </div>
+  }
+</div>

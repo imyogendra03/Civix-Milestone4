@@ -1,0 +1,142 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <h1>Create a New Poll</h1>
+    <p>Create a poll to gather community feedback.</p>
+  </div>
+
+  <div class="form-container">
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Poll Question</mat-label>
+        <input
+          matInput
+          formControlName="title"
+          placeholder="What would you like to ask the community?">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          rows="4"
+          formControlName="description"
+          placeholder="Provide more context about the poll">
+        </textarea>
+      </mat-form-field>
+
+      <div class="options-section">
+
+        <h3>Poll Options</h3>
+
+        @for (opt of options.controls; track $index) {
+
+          <div class="option-row">
+
+            <mat-form-field appearance="outline" style="flex:1">
+
+              <mat-label>
+                Option {{ $index + 1 }}
+              </mat-label>
+
+              <input
+                matInput
+                [formControl]="$any(opt)"
+                placeholder="Enter option">
+
+            </mat-form-field>
+
+            <button
+              mat-icon-button
+              type="button"
+              color="warn"
+              (click)="removeOption($index)"
+              [disabled]="options.length <= 2">
+
+              <mat-icon>remove_circle</mat-icon>
+
+            </button>
+
+          </div>
+
+        }
+
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="addOption()">
+
+          <mat-icon>add</mat-icon>
+          Add Option
+
+        </button>
+
+      </div>
+
+      <mat-form-field appearance="outline">
+  <mat-label>Department</mat-label>
+  <mat-select formControlName="department">
+    @for (d of departments; track d.id) { <mat-option [value]="d.name">{{ d.name }}</mat-option> }
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+
+        <mat-label>Target Location</mat-label>
+
+      
+          <input
+  matInput
+  formControlName="targetLocation"
+  placeholder="Location (e.g., City, State, Country)">
+
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+
+        <mat-label>Closes On</mat-label>
+
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="endDate">
+
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker">
+        </mat-datepicker-toggle>
+
+        <mat-datepicker #picker></mat-datepicker>
+
+      </mat-form-field>
+
+      <div class="form-actions">
+
+        <button
+          mat-stroked-button
+          type="button"
+          routerLink="/polls">
+
+          Cancel
+
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading || form.invalid">
+
+          {{ loading ? 'Creating...' : 'Create Poll' }}
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

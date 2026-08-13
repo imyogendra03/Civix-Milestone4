@@ -1,0 +1,9 @@
+.layout { display: flex; flex-direction: column; height: 100vh; overflow: hidden; background: #eef3f8; }
+    .container { flex: 1; overflow: hidden; background: transparent; }
+    .sidenav { width: 268px; border-right: none; box-shadow: 18px 0 42px rgba(15, 23, 42, 0.11); }
+    .content { overflow-y: auto; background: radial-gradient(circle at top left, rgba(20, 184, 166, 0.12), transparent 28rem), #eef3f8; }
+
+    @media (max-width: 959px) {
+    .sidenav { width: min(86vw, 304px); }
+    }
+    

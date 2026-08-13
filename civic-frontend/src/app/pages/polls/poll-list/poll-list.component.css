@@ -1,0 +1,344 @@
+/* =========================
+   PAGE
+========================= */
+
+.page-container {
+  max-width: 1300px;
+  margin: 30px auto;
+  padding: 0 24px 40px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  padding: 25px 0;
+}
+
+.page-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.page-header h1 mat-icon {
+  color: #2563eb;
+  font-size: 34px;
+  width: 34px;
+  height: 34px;
+}
+
+.page-header p {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.page-header button {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+   ACTION BAR
+========================= */
+
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* =========================
+   FILTER BAR
+========================= */
+
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  padding: 18px;
+  margin-bottom: 30px;
+
+  background: white;
+  border-radius: 18px;
+
+  box-shadow: 0 8px 20px rgba(15,23,42,.06);
+}
+
+/* Toggle */
+
+.poll-filters {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.poll-filters .mat-button-toggle {
+  background: white;
+  border: none !important;
+}
+
+.poll-filters .mat-button-toggle-button {
+  padding: 0 20px;
+  font-weight: 600;
+}
+
+.poll-filters .mat-button-toggle-checked {
+  background: #2563eb !important;
+  color: white !important;
+}
+
+.poll-filters .mat-button-toggle-checked * {
+  color: white !important;
+}
+
+/* Search */
+
+.location-filter {
+  width: 280px;
+}
+
+.location-filter .mat-mdc-text-field-wrapper {
+  border-radius: 12px !important;
+}
+
+.location-filter .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.location-filter input {
+  font-size: 15px;
+}
+
+/* =========================
+   POLL GRID
+========================= */
+
+.poll-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.poll-card {
+  border-radius: 18px !important;
+  overflow: hidden;
+
+  background: white;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow: 0 6px 18px rgba(15,23,42,.06);
+
+  transition: .3s ease;
+}
+
+.poll-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow: 0 16px 34px rgba(15,23,42,.12);
+}
+
+mat-card-header {
+  padding-bottom: 10px;
+}
+
+mat-card-title {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #1e293b;
+}
+
+mat-card-subtitle {
+  color: #64748b;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+mat-card-content {
+  padding-top: 10px;
+}
+
+/* =========================
+   META
+========================= */
+
+.poll-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.poll-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 14px;
+
+  color: #64748b;
+}
+
+.poll-meta mat-icon {
+  color: #2563eb;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Status */
+
+.status-active {
+  color: #16a34a !important;
+  font-weight: 700;
+}
+
+.status-closed {
+  color: #dc2626 !important;
+  font-weight: 700;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding: 18px !important;
+}
+
+button[mat-raised-button] {
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+button[mat-stroked-button] {
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty-state {
+  text-align: center;
+
+  padding: 80px 20px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow: 0 6px 20px rgba(15,23,42,.05);
+}
+
+.empty-state mat-icon {
+  font-size: 72px;
+  width: 72px;
+  height: 72px;
+  color: #94a3b8;
+}
+
+.empty-state h2 {
+  margin: 20px 0 10px;
+
+  color: #334155;
+
+  font-size: 28px;
+}
+
+.empty-state p {
+  color: #64748b;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 20px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .location-filter {
+    width: 100%;
+  }
+
+  .poll-filters {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .poll-grid {
+    grid-template-columns: 1fr;
+  }
+
+  mat-card-actions {
+    flex-direction: column;
+  }
+
+  mat-card-actions button {
+    width: 100%;
+  }
+
+}
